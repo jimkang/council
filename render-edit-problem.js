@@ -5,11 +5,13 @@ var accessor = require('accessor');
 
 var getId = accessor();
 
-function renderEditProblem({problem, commitChanges}) {
+function renderEditProblem({problem, commitChanges, setRoute}) {
+  var originalOpts = arguments[0];
   var editSection = d3.select('#edit-problem');
   editSection.classed('hidden', false);
 
   editSection.select('.add-choice-button').on('click', addChoice);
+  editSection.select('.view-button').on('click', view);
 
   editSection.select('.problem .problem-text').datum(problem)
     .text(problem.problemText)
@@ -21,7 +23,7 @@ function renderEditProblem({problem, commitChanges}) {
   choices.exit().remove();
 
   var newChoices = choices.enter().append('li').classed('choice', true);
-  newChoices.append('img').classed('presenter', true);
+  // newChoices.append('img').classed('presenter', true);
   newChoices.append('div')
     .classed('choice-text', true)
     .attr('contenteditable', true)
@@ -29,14 +31,12 @@ function renderEditProblem({problem, commitChanges}) {
 
   var updateChoices = newChoices.merge(choices);
   updateChoices.attr('id', getId);
-  updateChoices.selectAll('.presenter').attr('src', accessor('presenterImageURL'));
+  // updateChoices.selectAll('.presenter').attr('src', accessor('presenterImageURL'));
   updateChoices.selectAll('.choice-text').text(accessor('text'));
 
   function addChoice() {
     problem.choices.push(createChoice());
-    callNextTick(
-      renderEditProblem, {problem: problem, commitChanges: commitChanges}
-    );
+    callNextTick(renderEditProblem, originalOpts);
   }
 
   function onEndProblemTextEdit(p) {
@@ -47,6 +47,10 @@ function renderEditProblem({problem, commitChanges}) {
   function onEndChoiceEdit(choice) {
     choice.text = this.textContent;
     commitChanges(problem);
+  }
+
+  function view() {
+    setRoute('/problem/' + problem.id);
   }
 }
 
