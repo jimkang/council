@@ -50,6 +50,7 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
   }
 
   function view() {
+    editSection.classed('hidden', true);
     setRoute('/problem/' + problem.id);
   }
 }

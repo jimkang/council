@@ -1,6 +1,7 @@
 var director = require('director');
 var randomId = require('idmaker').randomId;
 var renderEditProblem = require('./render-edit-problem');
+var renderDisplayProblem = require('./render-display-problem');
 
 ((((function init() {
   var router = director.Router({
@@ -10,6 +11,8 @@ var renderEditProblem = require('./render-edit-problem');
   });
 
   router.notfound = decide;
+  var safeSetRoute = router.setRoute.bind(router);
+
   router.init('/');
 
   function decide() {
@@ -18,7 +21,7 @@ var renderEditProblem = require('./render-edit-problem');
       renderEditProblem({
         problem: createNewProblem(),
         commitChanges: commitChanges,
-        setRoute: router.setRoute.bind(router)
+        setRoute: safeSetRoute
       });
     }
     else {
@@ -26,18 +29,38 @@ var renderEditProblem = require('./render-edit-problem');
     }
   }
 
+  function displayProblem(id) {
+    var problem = getProblem(id);
+    renderDisplayProblem({
+      problem: problem,
+      setRoute: safeSetRoute
+    });
+  }
+
+  function editProblem(id) {
+    var problem = getProblem(id);
+    renderEditProblem({
+      problem: problem,
+      commitChanges: commitChanges,
+      setRoute: safeSetRoute
+    });
+  }
 })())));
-
-function displayProblem(id) {
-  console.log('display', id);
-}
-
-function editProblem(id) {
-
-}
 
 function getProblems() {
 
+}
+
+function getProblem(id) {
+  if (!id) {
+    console.log('getProblem not given an id.');
+    return;
+  }
+
+  var problemString = window.localStorage.getItem(id);
+  if (problemString) {
+    return JSON.parse(problemString);
+  }
 }
 
 function createNewProblem() {
