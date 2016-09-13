@@ -1,5 +1,23 @@
+@import 'https://fonts.googleapis.com/css?family=Metamorphous';
+@import 'https://fonts.googleapis.com/css?family=Jim+Nightshade';
+
 body {
   font-family: "helvetica neue";
+  background-color: black;
+  color: white;
+}
+
+.choice {
+  display: flex;
+}
+
+.problem-text {
+  font-family: Metamorphous, 'Jim Nightshade', cursive;
+  font-size: 2em;
+}
+
+.presenter img {
+  max-width: 200px;
 }
 
 .hidden {
