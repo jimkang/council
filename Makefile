@@ -2,6 +2,12 @@ BROWSERIFY = ./node_modules/.bin/browserify
 UGLIFY = ./node_modules/.bin/uglifyjs
 TRANSFORM_SWITCH = -t [ babelify --presets [ es2015 ] ]
 
+SMOKECHROME = node_modules/.bin/tap-closer | \
+        node_modules/.bin/smokestack -b chrome
+
+SMOKEFIREFOX = node_modules/.bin/tap-closer | \
+        node_modules/.bin/smokestack -b firefox
+
 run:
 	wzrd app.js:index.js -- \
 		-d \
@@ -10,8 +16,13 @@ run:
 build:
 	$(BROWSERIFY) $(TRANSFORM_SWITCH) app.js | $(UGLIFY) -c -m -o index.js
 
-test:
-	node tests/basictests.js
+run-chrome-test:
+	$(BROWSERIFY) -d tests/store-tests.js | $(SMOKECHROME)
+
+run-firefox-test:
+	$(BROWSERIFY) -d tests/store-tests.js | $(SMOKEFIREFOX)
+
+test: run-chrome-test run-firefox-test
 
 pushall:
 	git push origin gh-pages
