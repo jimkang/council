@@ -2,8 +2,15 @@ var director = require('director');
 var randomId = require('idmaker').randomId;
 var renderEditProblem = require('./render-edit-problem');
 var renderDisplayProblem = require('./render-display-problem');
+var Store = require('./store');
+var sb = require('standard-bail')();
+var handleError = require('./handle-error');
+
+var store;
 
 ((((function init() {
+  store = Store();
+
   var router = director.Router({
     '/problem/:id': displayProblem,
     '/problem/:id/edit': editProblem,
@@ -16,52 +23,47 @@ var renderDisplayProblem = require('./render-display-problem');
   router.init('/');
 
   function decide() {
-    var problems = getProblems();
-    if (!problems) {
-      renderEditProblem({
-        problem: createNewProblem(),
-        commitChanges: commitChanges,
-        setRoute: safeSetRoute
-      });
-    }
-    else {
-      // renderListProblems();
+    store.loadAllProblems(sb(decideWithProblems, handleError));
+
+    function decideWithProblems(problems) {
+      if (!problems || problems.length < 1) {
+        renderEditProblem({
+          problem: createNewProblem(),
+          commitChanges: store.saveProblem,
+          setRoute: safeSetRoute
+        });
+      }
+      else {
+        console.log(problems);
+        // renderListProblems();
+      }
     }
   }
 
   function displayProblem(id) {
-    var problem = getProblem(id);
-    renderDisplayProblem({
-      problem: problem,
-      setRoute: safeSetRoute
-    });
+    store.loadProblem(id, sb(callRender, handleError));
+
+    function callRender(problem) {
+      renderDisplayProblem({
+        problem: problem,
+        setRoute: safeSetRoute
+      });
+    }
   }
 
   function editProblem(id) {
-    var problem = getProblem(id);
-    renderEditProblem({
-      problem: problem,
-      commitChanges: commitChanges,
-      setRoute: safeSetRoute
-    });
+    store.loadProblem(id, sb(callEdit, handleError));
+
+    function callEdit(problem) {
+      renderEditProblem({
+        problem: problem,
+        commitChanges: store.saveProblem,
+        setRoute: safeSetRoute
+      });
+    }
   }
+
 })())));
-
-function getProblems() {
-
-}
-
-function getProblem(id) {
-  if (!id) {
-    console.log('getProblem not given an id.');
-    return;
-  }
-
-  var problemString = window.localStorage.getItem(id);
-  if (problemString) {
-    return JSON.parse(problemString);
-  }
-}
 
 function createNewProblem() {
   return {
@@ -72,22 +74,3 @@ function createNewProblem() {
   };
 }
 
-function commitChanges(problem) {
-  if (!problem || !problem.id) {
-    console.log('Could not commit malformed problem.');
-    return;
-  }
-
-  var problemList = [];
-  var problemListString = window.localStorage.getItem('index-problems');
-  if (problemListString) {
-    problemList = JSON.parse(problemListString);
-  }
-
-  if (problemList.indexOf(problem.id) === -1) {
-    problemList.push(problem.id);
-    window.localStorage.setItem('index-problems', JSON.stringify(problemList));
-  }
-
-  window.localStorage.setItem(problem.id, JSON.stringify(problem));
-}

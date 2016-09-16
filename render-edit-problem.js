@@ -2,6 +2,7 @@ var d3 = require('d3-selection');
 var createChoice = require('./create-choice');
 var callNextTick = require('call-next-tick');
 var accessor = require('accessor');
+var handleError = require('./handle-error');
 
 var getId = accessor();
 
@@ -41,12 +42,12 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
 
   function onEndProblemTextEdit(p) {
     p.problemText = this.textContent;
-    commitChanges(problem);
+    commitChanges(problem, handleError);
   }
 
   function onEndChoiceEdit(choice) {
     choice.text = this.textContent;
-    commitChanges(problem);
+    commitChanges(problem, handleError);
   }
 
   function view() {
