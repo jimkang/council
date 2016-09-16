@@ -1,10 +1,11 @@
 var director = require('director');
-var randomId = require('idmaker').randomId;
 var renderEditProblem = require('./render-edit-problem');
 var renderDisplayProblem = require('./render-display-problem');
+var renderListProblems = require('./render-list-problems');
 var Store = require('./store');
 var sb = require('standard-bail')();
 var handleError = require('./handle-error');
+var addNewProblem = require('./add-new-problem');
 
 var store;
 
@@ -27,15 +28,17 @@ var store;
 
     function decideWithProblems(problems) {
       if (!problems || problems.length < 1) {
-        renderEditProblem({
-          problem: createNewProblem(),
-          commitChanges: store.saveProblem,
+        addNewProblem({
+          saveProblem: store.saveProblem,
           setRoute: safeSetRoute
         });
       }
       else {
-        console.log(problems);
-        // renderListProblems();
+        renderListProblems({
+          problemsData: problems,
+          saveProblem: store.saveProblem,
+          setRoute: safeSetRoute
+        });
       }
     }
   }
@@ -64,13 +67,3 @@ var store;
   }
 
 })())));
-
-function createNewProblem() {
-  return {
-    id: 'problem-' + randomId(4),
-    problemText: '<Your problem goes here.>',
-    presenterImageURL: '',
-    choices: []
-  };
-}
-

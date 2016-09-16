@@ -15,7 +15,7 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
   editSection.select('.view-button').on('click', view);
 
   editSection.select('.problem .problem-text').datum(problem)
-    .text(problem.problemText)
+    .text(problem.text)
     .on('blur', onEndProblemTextEdit);
 
   var choiceRoot = editSection.select('.choice-root');
@@ -41,7 +41,7 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
   }
 
   function onEndProblemTextEdit(p) {
-    p.problemText = this.textContent;
+    p.text = this.textContent;
     commitChanges(problem, handleError);
   }
 

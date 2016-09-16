@@ -10,7 +10,7 @@ function renderDisplayProblem({problem, setRoute}) {
   displaySection.select('.edit-button').on('click', edit);
 
   displaySection.select('.problem .problem-text').datum(problem)
-    .text(problem.problemText);
+    .text(problem.text);
 
   var choiceRoot = displaySection.select('.choice-root');
   var choices = choiceRoot.selectAll('.choice').data(problem.choices, getId);
