@@ -5,6 +5,8 @@ var addNewProblem = require('./add-new-problem');
 var getId = accessor();
 
 function renderListProblems({problemsData, setRoute, saveProblem}) {
+  d3.selectAll('body > section:not(#list-problems)').classed('hidden', true);
+  
   var listSection = d3.select('#list-problems');
   listSection.classed('hidden', false);
 

@@ -7,6 +7,8 @@ var handleError = require('./handle-error');
 var getId = accessor();
 
 function renderEditProblem({problem, commitChanges, setRoute}) {
+  d3.selectAll('body > section:not(#edit-problem)').classed('hidden', true);
+
   var originalOpts = arguments[0];
   var editSection = d3.select('#edit-problem');
   editSection.classed('hidden', false);

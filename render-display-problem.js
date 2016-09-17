@@ -4,6 +4,8 @@ var accessor = require('accessor');
 var getId = accessor();
 
 function renderDisplayProblem({problem, setRoute}) {
+  d3.selectAll('body > section:not(#display-problem)').classed('hidden', true);
+
   var displaySection = d3.select('#display-problem');
   displaySection.classed('hidden', false);
 
