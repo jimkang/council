@@ -6,6 +6,11 @@ var Store = require('./store');
 var sb = require('standard-bail')();
 var handleError = require('./handle-error');
 var addNewProblem = require('./add-new-problem');
+var walkMachine = require('walk-machine');
+var callNextTick = require('call-next-tick');
+var queue = require('d3-queue').queue;
+
+// require('longjohn');
 
 var store;
 
@@ -44,13 +49,58 @@ var store;
   }
 
   function displayProblem(id) {
-    store.loadProblem(id, sb(callRender, handleError));
+    var stateMap = {
+      start: {
+        work: store.loadProblem,
+        params: [id],
+        next: pickStateAfterLoad
+      },
+      loadImages: {
+        work: findImages,
+        next: 'render'
+      },
+      render: {
+        work: callRender
+      }
+    };
 
-    function callRender(problem) {
+    walkMachine(stateMap, handleError);
+
+    function pickStateAfterLoad(problem, done) {
+      var nextState = 'loadImages';
+      if (problem.choices.every((choice) => choice.presenterImageURL)) {
+        nextState = 'render';
+      }
+      done(null, nextState);
+    }
+
+    function findImages(problem, done) {
+      var q = queue();
+      problem.choices.forEach(queueGetImage);
+      q.awaitAll(sb(passProblem, done));
+
+      function passProblem() {
+        done(null, problem);
+      }
+      
+      function queueGetImage(choice) {
+        // TODO: Actual impl.
+        q.defer(setImage, choice);
+
+        function setImage(choice, done) {
+          choice.presenterImageURL = 'http://smidgeo.com/images/smidgeo_on_the_move.png';
+          done(null, choice);
+        }
+        // callNextTick(done, null, choice);
+      }
+    }
+
+    function callRender(problem, done) {
       renderDisplayProblem({
         problem: problem,
         setRoute: safeSetRoute
       });
+      callNextTick(done);
     }
   }
 
