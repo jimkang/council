@@ -1,0 +1,52 @@
+<html>
+<head>
+  <title>council</title>
+  <link rel="stylesheet" href="../../app.css"></link>
+</head>
+<body>
+
+<div id="status-message" class="hidden"></div>
+
+<section id="list-problems" class="hidden">
+  <ul class="problems-root">
+  </ul>
+  <button class="add-button">Add</button>
+</section>
+
+<section id="display-problem">
+  <div class="problem">
+    <div class="problem-text">I am doing too many things!</div>
+  </div>
+
+  <ul class="choice-root">
+    <li class="choice" id="choice-tOqC">
+      <div class="presenter">
+        <img src="http://smidgeo.com/images/smidgeo_on_the_move.png">
+      </div>
+      <div class="choice-text">Do less things.</div>
+    </li>
+    <li class="choice" id="choice-xZNQ">
+      <div class="presenter">
+        <img src="http://smidgeo.com/images/smidgeo_on_the_move.png">
+      </div>
+      <div class="choice-text">Live with it.</div>
+    </li>
+  </ul>
+
+  <a href="#/" class="all-problems-link">All problems</a>
+</section>
+
+<section id="edit-problem" class="hidden">
+  <div class="problem">
+    <div class="title">What is the problem?</div>
+    <div class="problem-text" contenteditable="true"></div>
+  </div>
+  <ul class="choice-root">
+  </ul>
+  <button class="add-choice-button">Add choice</button>
+  <button class="view-button">View</button>
+  <a href="#/" class="all-problems-link">All problems</a>
+</section>
+
+</body>
+</html>
