@@ -46,32 +46,35 @@ function createTextContainerContents(textContainers) {
     svg: textContainers.append('svg').classed('top-paper-edge', true),
     direction: [0, -1],
     length: 1000,
-    thickness: 20
+    maxThickness: 10
   });
 
   drawTear({
     svg: textContainers.append('svg').classed('bottom-paper-edge', true),
     direction: [0, 1],
     length: 1000,
-    thickness: 20
+    maxThickness: 10
   });
 
   drawTear({
     svg: textContainers.append('svg').classed('left-paper-edge', true),
     direction: [-1, 0],
     length: 1000,
-    thickness: 20
+    maxThickness: 20
   });
 
   drawTear({
     svg: textContainers.append('svg').classed('right-paper-edge', true),
     direction: [1, 0],
     length: 1000,
-    thickness: 20
+    maxThickness: 20
   });
 }
 
-function drawTear({svg, direction, length, thickness}) {
+function drawTear({svg, direction, length, maxThickness}) {
+  const tearFreq = 5;
+  var lastThickness;
+  // if (length)
   var area = shape.area();
   area.curve(shape.curveLinear);
 
@@ -79,19 +82,19 @@ function drawTear({svg, direction, length, thickness}) {
   var height;
 
   if (direction[1] === 0) {
-    area.x0(direction[0] < 0 ? thickness : 0);
+    area.x0(direction[0] < 0 ? maxThickness : 0);
     area.x1(getCurrentThickness);
 
     area.y(identity);
-    width = thickness;
+    width = maxThickness;
     height = length;
   }
   else {
-    area.y0(direction[1] < 0 ? thickness : 0);
+    area.y0(direction[1] < 0 ? maxThickness : 0);
     area.y1(getCurrentThickness);
     area.x(identity);
     width = length;
-    height = thickness;
+    height = maxThickness;
   }
 
   var stretchPref = 'xMinYMin';
@@ -102,10 +105,33 @@ function drawTear({svg, direction, length, thickness}) {
   svg
     .attr('viewBox', `0 0 ${width} ${height}`)
     .attr('preserveAspectRatio', stretchPref)
-    .append('path').attr('d', area(range(10, length - 10, 5)));
+    .append('path').attr('d', area(range(0, length, tearFreq)));
 
-  function getCurrentThickness() {
-    return probable.rollDie(thickness);
+  function getCurrentThickness(p) {
+    var currentThickness = 0;
+    if (p === 0 || p >= length - tearFreq) {
+      if (direction[0] < 0 || direction[1] < 0) {
+        currentThickness = maxThickness;
+      }
+    }
+    else {
+      // currentThickness = Math.sin(p) * maxThickness;
+      currentThickness = probable.rollDie(maxThickness);
+
+      // if (lastThickness !== undefined && p % (tearFreq * 2) === 0) {
+        if (lastThickness > maxThickness/2) {
+          currentThickness = maxThickness/2 + probable.rollDie(maxThickness/2);
+        }
+      //   const delta = currentThickness - lastThickness;
+      //   if (Math.abs(delta) > maxThickness/2) {
+      //     currentThickness = delta/2;
+      //   }
+      // }
+      // else {
+        lastThickness = currentThickness;
+      // }
+    }
+    return currentThickness;
   }
 }
 
