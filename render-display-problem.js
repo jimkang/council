@@ -45,38 +45,39 @@ function createTextContainerContents(textContainers) {
   drawTear({
     svg: textContainers.append('svg').classed('top-paper-edge', true),
     direction: [0, -1],
-    length: 1000,
-    maxThickness: 10
+    length: 1500,
+    maxThickness: 5
   });
 
   drawTear({
     svg: textContainers.append('svg').classed('bottom-paper-edge', true),
     direction: [0, 1],
-    length: 1000,
-    maxThickness: 10
+    length: 1500,
+    maxThickness: 5
   });
 
   drawTear({
     svg: textContainers.append('svg').classed('left-paper-edge', true),
     direction: [-1, 0],
     length: 1000,
-    maxThickness: 20
+    maxThickness: 10
   });
 
   drawTear({
     svg: textContainers.append('svg').classed('right-paper-edge', true),
     direction: [1, 0],
     length: 1000,
-    maxThickness: 20
+    maxThickness: 10
   });
 }
 
 function drawTear({svg, direction, length, maxThickness}) {
-  const tearFreq = 5;
-  var lastThickness;
-  // if (length)
+  const tearFreq = 4;
+
   var area = shape.area();
   area.curve(shape.curveLinear);
+  var line = shape.line();
+  line.curve(shape.curveLinear);
 
   var width;
   var height;
@@ -102,11 +103,13 @@ function drawTear({svg, direction, length, maxThickness}) {
     stretchPref = 'xMaxYMax';
   }
 
+  var pathDirections = area(range(tearFreq, length - tearFreq, tearFreq));
+
   svg
     .attr('viewBox', `0 0 ${width} ${height}`)
     .attr('preserveAspectRatio', stretchPref)
-    .append('path').attr('d', area(range(0, length, tearFreq)));
-
+    .append('path').attr('d', pathDirections);
+  
   function getCurrentThickness(p) {
     var currentThickness = 0;
     if (p === 0 || p >= length - tearFreq) {
@@ -115,21 +118,21 @@ function drawTear({svg, direction, length, maxThickness}) {
       }
     }
     else {
-      // currentThickness = Math.sin(p) * maxThickness;
-      currentThickness = probable.rollDie(maxThickness);
+      if (direction[0] < 0 || direction[1] < 0) {
+        currentThickness = maxThickness/2 + Math.sin(p/10) * maxThickness/2;
+      }
+      else {
+        currentThickness = maxThickness/2 - Math.sin(p/10) * maxThickness/2;
+      }
 
-      // if (lastThickness !== undefined && p % (tearFreq * 2) === 0) {
-        if (lastThickness > maxThickness/2) {
-          currentThickness = maxThickness/2 + probable.rollDie(maxThickness/2);
-        }
-      //   const delta = currentThickness - lastThickness;
-      //   if (Math.abs(delta) > maxThickness/2) {
-      //     currentThickness = delta/2;
-      //   }
-      // }
-      // else {
-        lastThickness = currentThickness;
-      // }
+      currentThickness += Math.sin(p/4) * maxThickness/6;
+
+      if (probable.roll(2) === 0) {
+        currentThickness += probable.rollDie(maxThickness/5);
+      }
+      else {
+        currentThickness -= probable.rollDie(maxThickness/5);
+      }
     }
     return currentThickness;
   }
