@@ -1,11 +1,16 @@
 var d3 = require('d3-selection');
 var drawTear = require('./draw-tear');
 var accessor = require('accessor');
+var getCouncil = require('./get-council');
+var handleError = require('./handle-error');
+var sb = require('standard-bail')();
 
 var getId = accessor();
 
 function renderDisplayProblem({problem, setRoute}) {
   d3.selectAll('body > section:not(#display-problem)').classed('hidden', true);
+
+  d3.select('.change-council-button').on('click', changeCouncil);
 
   var displaySection = d3.select('#display-problem');
   displaySection.classed('hidden', false);
@@ -34,6 +39,18 @@ function renderDisplayProblem({problem, setRoute}) {
   function edit() {
     displaySection.classed('hidden', true);
     setRoute('/problem/' + problem.id + '/edit');
+  }
+
+  function changeCouncil() {
+    getCouncil({numberOfMembers: 5}, sb(updateCouncil, handleError));
+  }
+
+  function updateCouncil(members) {
+    console.log(members);
+    for (var i = 0; i < members.length && i < problem.choices.length; ++i) {
+      problem.choices[i].presenterImageURL = members[i];
+    }
+    renderDisplayProblem({problem, setRoute});
   }
 }
 
