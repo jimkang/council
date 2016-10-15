@@ -11,7 +11,7 @@ function renderDisplayProblem({problem, setRoute}) {
   d3.selectAll('body > section:not(#display-problem)').classed('hidden', true);
 
   d3.select('.change-council-button').on('click', changeCouncil);
-
+// TODO: Rerender everything to avoid artifacts.
   var displaySection = d3.select('#display-problem');
   displaySection.classed('hidden', false);
 

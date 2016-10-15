@@ -7,16 +7,23 @@ var probable = require('probable');
 
 var idsForLibraries = {
   'The British Library': '12403504@N02',
-  'US National Archives': 'usnationalarchives'
+  'US National Archives': 'usnationalarchives',
+  'Museum of Photographic Arts': '61498590@N03',
+  'New York Public Library': '3295198@N05',
+  'The Library of Congress': 'library_of_congress',
+  'Internet Archive Book Images': '126377022@N07'
 };
 
 var searchTerms = [
   'face',
   'head',
+  'portrait',
   'person',
   'woman',
   'man',
-  'animal'
+  'animal',
+  'bird',
+  'child'
 ];
 
 var searchFlickr = SearchFlickr({
