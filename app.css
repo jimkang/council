@@ -76,6 +76,7 @@ body.fantasy {
 .choice {
   display: flex;
   margin-bottom: 1em;
+  align-items: center;
 }
 
 .problem {
