@@ -24,7 +24,9 @@ function SearchFlickr(createOpts) {
         done(error);
       }
       else if (searchResponse.stat !== 'ok' || searchResponse.photos.photo.length < 1) {
-        done(new Error('Couldn\'t find image. Status:', searchResponse.stat));
+        var findError = new Error('Couldn\'t find image. Status:', searchResponse.stat);
+        findError.notFound = true;
+        done(findError);
       }
       else {
         done(null, searchResponse.photos.photo);

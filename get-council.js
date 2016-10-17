@@ -1,9 +1,10 @@
 var makeRequest = require('basic-browser-request');
 var SearchFlickr = require('./search-flickr');
 var config = require('./config');
-var handleError = require('./handle-error');
-var sb = require('standard-bail')();
 var probable = require('probable');
+var callNextTick = require('call-next-tick');
+
+const maxRetries = 5;
 
 var idsForLibraries = {
   'The British Library': '12403504@N02',
@@ -31,12 +32,39 @@ var searchFlickr = SearchFlickr({
   request: makeRequest
 });
 
-function getCouncil({numberOfMembers}, done) {
+function getCouncil({numberOfMembers, retryCount}, done) {
+  if (retryCount === undefined) {
+    retryCount = 0;
+  }
+
   var searchTerm = probable.pickFromArray(searchTerms);
   var library = probable.pickFromArray(Object.keys(idsForLibraries));
-  console.log(searchTerm, library);
+  console.log(searchTerm, library, 'retryCount', retryCount);
 
-  searchFlickr(searchTerm, idsForLibraries[library], sb(pickImage, handleError));
+  searchFlickr(searchTerm, idsForLibraries[library], decideOnSearch);
+
+  function decideOnSearch(error, results) {
+    if (error) {
+      if (error.notFound) {
+        if (retryCount < maxRetries) {
+          var opts = {
+            numberOfMembers: numberOfMembers,
+            retryCount: retryCount + 1
+          };
+          callNextTick(getCouncil, opts, done);
+        }
+        else {
+          done(error);
+        }
+      }
+      else {
+        done(error);
+      }
+    }
+    else {
+      pickImage(results);
+    }
+  }
 
   function pickImage(searchResults) {
     var images = probable.shuffle(searchResults)
