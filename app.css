@@ -1,9 +1,36 @@
-@import 'https://fonts.googleapis.com/css?family=Vesper+Libre|Asul|Lato|Eagle+Lake';
+@import 'https://fonts.googleapis.com/css?family=Vesper+Libre|Eagle+Lake';
 
 body {
   font-family: 'helvetica neue';
   color: #333;
 }
+
+.choice {
+  display: flex;
+  margin-bottom: 1em;
+  align-items: center;
+}
+
+.problem {
+  display: flex;
+  flex-direction: column;
+}
+
+.presenter img {
+  /*max-width: 200px;*/
+}
+
+.hidden {
+  display: none;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+#edit-problem {
+  display: flex;
+  flex-direction: column;
+}
+
 
 body.fantasy {
   font-family: 'Vesper Libre';
@@ -73,18 +100,6 @@ body.fantasy {
   stroke-width: 2;
 }
 
-
-.choice {
-  display: flex;
-  margin-bottom: 1em;
-  align-items: center;
-}
-
-.problem {
-  display: flex;
-  flex-direction: column;
-}
-
 .fantasy .problem {
   font-family: 'Eagle Lake', serif;
   font-size: 2em;
@@ -97,19 +112,4 @@ body.fantasy {
   font-size: 1.5em;
   text-decoration: none;
   color: white;
-}
-
-.presenter img {
-  /*max-width: 200px;*/
-}
-
-.hidden {
-  display: none;
-  opacity: 0;
-  transition: opacity 1s;
-}
-
-#edit-problem {
-  display: flex;
-  flex-direction: column;
 }
