@@ -80,10 +80,11 @@ body.fantasy {
 }
 
 .problem {
-  font-family: 'Eagle Lake', serif;
   display: flex;
   flex-direction: column;
-  font-size: 1.5em;
+  font-family: 'Eagle Lake', serif;
+  font-size: 2em;
+  color: hsl(29, 76%, 55%);
 }
 
 .presenter img {
