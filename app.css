@@ -73,6 +73,7 @@ body.fantasy {
   stroke-width: 2;
 }
 
+
 .choice {
   display: flex;
   margin-bottom: 1em;
@@ -82,9 +83,20 @@ body.fantasy {
 .problem {
   display: flex;
   flex-direction: column;
+}
+
+.fantasy .problem {
   font-family: 'Eagle Lake', serif;
   font-size: 2em;
   color: hsl(29, 76%, 55%);
+}
+
+.fantasy a {
+  font-family: 'Eagle Lake', serif;
+  font-weight: bold;
+  font-size: 1.5em;
+  text-decoration: none;
+  color: white;
 }
 
 .presenter img {
