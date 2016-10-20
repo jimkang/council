@@ -111,5 +111,18 @@ body.fantasy {
   font-weight: bold;
   font-size: 1.5em;
   text-decoration: none;
-  color: white;
+  color: #ddd;
+}
+
+.fantasy .change-council-link {
+  color:  #ab2d54;
+  cursor: pointer;
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.fantasy #display-problem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
