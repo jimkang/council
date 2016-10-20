@@ -54,7 +54,6 @@ function renderDisplayProblem({problem, setRoute}) {
   }
 }
 
-// TODO: Do you really need a unique tear for each dialogue-text?
 function renderTextContainerContents(textContainers) {
   ensureExists(textContainers, 'div', 'dialogue-text');
   
