@@ -90,19 +90,19 @@ function renderTears(textBoards) {
     .attr('transform', getPathTransform);
 
   function getBoardWidth() {
-    return getWidthOfTextContainer(d3.select(this)) + 2 * tearWidth;
+    return getWidthOfTextElement(d3.select(this)) + 2 * tearWidth;
   }
 
   function getBoardHeight() {
-    return getHeightOfTextContainer(d3.select(this)) + 2 * tearWidth;
+    return getHeightOfTextElement(d3.select(this)) + 2 * tearWidth;
   }
 
   function getForeignObjectWidth() {
-    return getWidthOfTextContainer(d3.select(this));
+    return getWidthOfTextElement(d3.select(this));
   }
 
   function getForeignObjectHeight() {
-    return getHeightOfTextContainer(d3.select(this));    
+    return getHeightOfTextElement(d3.select(this));
   }
 
   function getPathDirections(direction) {
@@ -133,13 +133,13 @@ function renderTears(textBoards) {
   }
 }
 
-function getHeightOfTextContainer(parentSel) {
-  var textContainer = parentSel.select('.dialogue-text-container');
+function getHeightOfTextElement(parentSel) {
+  var textContainer = parentSel.select('.dialogue-text');
   return textContainer.node().clientHeight;
 }
 
-function getWidthOfTextContainer(parentSel) {
-  var textContainer = parentSel.select('.dialogue-text-container');
+function getWidthOfTextElement(parentSel) {
+  var textContainer = parentSel.select('.dialogue-text');
   return textContainer.node().clientWidth;
 }
 
