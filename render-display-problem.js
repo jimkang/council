@@ -7,6 +7,7 @@ var sb = require('standard-bail')();
 
 var getId = accessor();
 
+
 function renderDisplayProblem({problem, setRoute}) {
   d3.selectAll('body > section:not(#display-problem)').classed('hidden', true);
 
@@ -78,36 +79,17 @@ function renderTears(textBoards) {
     .attr('width', getBoardWidth)
     .attr('height', getBoardHeight);
 
-  ensureExists(textBoards, 'path', 'top-tear-path')
-    .attr('d', drawTear({
-      direction: [0, -1],
-      length: 1500,
-      maxThickness: tearWidth
-    }));
-
-  ensureExists(textBoards, 'path', 'bottom-tear-path')
-    .attr('transform', getTranslateBottom)
-    .attr('d', drawTear({
-      direction: [0, 1],
-      length: 1500,
-      maxThickness: tearWidth
-    }));
-
-  ensureExists(textBoards, 'path', 'left-tear-path')
-    // .attr('transform', 'translate(' + tearWidth + ')')
-    .attr('d', drawTear({
-      direction: [-1, 0],
-      length: 1000,
-      maxThickness: 10
-    }));
-
-  ensureExists(textBoards, 'path', 'right-tear-path')
-    .attr('transform', getTranslateRight)
-    .attr('d', drawTear({
-      direction: [1, 0],
-      length: 1000,
-      maxThickness: 10
-    }));
+  // Use path directions as data.
+  var paths = textBoards.selectAll('.tear-path')
+    .data([[0, -1], [0, 1], [-1, 0], [1, 0]]);
+  
+  var updatePaths = paths
+    .enter().append('path').classed('tear-path', true)
+    .merge(paths);
+  
+  updatePaths
+    .attr('d', getPathDirections)
+    .attr('transform', getPathTransform);
 
   function getBoardWidth() {
     return getWidthOfTextContainer(d3.select(this)) + 2 * tearWidth;
@@ -125,14 +107,31 @@ function renderTears(textBoards) {
     return getHeightOfTextContainer(d3.select(this));    
   }
 
-  function getTranslateBottom() {
-    var height = getHeightOfTextContainer(d3.select(this.parentNode)) + tearWidth;
-    return `translate(0, ${height})`;
+  function getPathDirections(direction) {
+    var tearOpts = {
+      direction: direction,
+      maxThickness: tearWidth
+    };
+
+    var lengthAttr = 'height';
+    if (direction[0] === 0) {
+      lengthAttr = 'width';
+    }
+    tearOpts.length = d3.select(this.parentNode).attr(lengthAttr);
+
+    return drawTear(tearOpts);
   }
 
-  function getTranslateRight() {
-    var width = getWidthOfTextContainer(d3.select(this.parentNode)) + 2 * tearWidth;
-    return `translate(${width}, 0)`;
+  function getPathTransform(direction) {
+    var x = 0;
+    var y = 0;
+    if (direction[0] > 0) {
+      x = d3.select(this.parentNode).attr('width') - tearWidth;
+    }
+    if (direction[1] > 0) {
+      y = d3.select(this.parentNode).attr('height') - tearWidth;
+    }
+    return `translate(${x}, ${y})`;
   }
 }
 
@@ -144,14 +143,6 @@ function getHeightOfTextContainer(parentSel) {
 function getWidthOfTextContainer(parentSel) {
   var textContainer = parentSel.select('.dialogue-text-container');
   return textContainer.node().clientWidth;
-}
-
-function ensureExists(parentSelection, elementType, className) {
-  var existing = parentSelection.selectAll('.' + className);
-  if (existing.empty()) {
-    existing = parentSelection.append(elementType).classed(className, true);
-  }
-  return existing;
 }
 
 module.exports = renderDisplayProblem;

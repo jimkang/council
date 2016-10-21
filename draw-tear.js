@@ -8,32 +8,18 @@ area.curve(shape.curveLinear);
 const tearFreq = 4;
 
 function drawTear({direction, length, maxThickness}) {
-  var width;
-  var height;
-
   if (direction[1] === 0) {
-    width = maxThickness;
-    height = length;
-
     area.x0(direction[0] < 0 ? maxThickness : 0);
     area.y(identity);
   }
   else {
-    width = length;
-    height = maxThickness;
-
     area.y0(direction[1] < 0 ? maxThickness : 0);
     area.x(identity);
   }
 
-  var stretchPref = 'xMinYMin';
-  if (direction[0] < 0 || direction[1] < 0) {
-    stretchPref = 'xMaxYMax';
-  }
-  
   const divisorA = 10 + probable.rollDie(4);
   const divisorB = 2 + probable.roll(2);
-  console.log('divisorA', divisorA);
+  // console.log('divisorA', divisorA);
 
   if (direction[1] === 0) {
     area.x1(getCurrentThickness);
@@ -42,7 +28,7 @@ function drawTear({direction, length, maxThickness}) {
     area.y1(getCurrentThickness);
   }
 
-  return area(range(tearFreq, length - tearFreq, tearFreq));
+  return area(range(0, length, tearFreq));
 
   function getCurrentThickness(p) {
     var currentThickness = 0;
