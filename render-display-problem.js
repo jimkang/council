@@ -6,7 +6,7 @@ var handleError = require('./handle-error');
 var sb = require('standard-bail')();
 
 var getId = accessor();
-
+const tearWidth = 5;
 
 function renderDisplayProblem({problem, setRoute}) {
   d3.selectAll('body > section:not(#display-problem)').classed('hidden', true);
@@ -28,21 +28,21 @@ function renderDisplayProblem({problem, setRoute}) {
 
   newChoices
     .append('svg').classed('dialogue-text-board', true)
-    // TODO: Why is this 0px by 0px?
     .append('foreignObject')
       .attr('width', '100%')
       .attr('height', '100%')
-    .append('div').classed('dialogue-text-container', true)
-    .append('div').classed('dialogue-text', true);
-
-  // renderTextContainerContents(choiceTextContainers);
+      .attr('x', tearWidth)
+      .attr('y', tearWidth)
+    // Using the namespace when appending an html element to a foreignObject is
+    // incredibly important. Without it, a div will not size itself correctly for its contents.
+    .append('xhtml:div').classed('dialogue-text-container', true)
+    .append('xhtml:div').classed('dialogue-text', true);
 
   var updateChoices = newChoices.merge(choices);
   updateChoices.attr('id', getId);
   updateChoices.selectAll('.presenter img').attr('src', accessor('presenterImageURL'));
   updateChoices.selectAll('.dialogue-text').text(accessor('text'));
 
-  // renderTextContainerContents(displaySection.select('.problem .dialogue-text-container'));
   displaySection.select('.problem .dialogue-text').text(problem.text);
 
   // This must go after the .dialogue-text contents are updated.
@@ -67,8 +67,6 @@ function renderDisplayProblem({problem, setRoute}) {
 }
 
 function renderTears(textBoards) {
-  const tearWidth = 5;
-
   textBoards.selectAll('foreignObject')
     .attr('width', getForeignObjectWidth)
     .attr('height', getForeignObjectHeight);
