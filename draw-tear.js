@@ -7,7 +7,7 @@ area.curve(shape.curveLinear);
 
 const tearFreq = 4;
 
-function drawTear({svg, direction, length, maxThickness}) {
+function drawTear({direction, length, maxThickness}) {
   var width;
   var height;
 
@@ -30,59 +30,47 @@ function drawTear({svg, direction, length, maxThickness}) {
   if (direction[0] < 0 || direction[1] < 0) {
     stretchPref = 'xMaxYMax';
   }
+  
+  const divisorA = 10 + probable.rollDie(4);
+  const divisorB = 2 + probable.roll(2);
+  console.log('divisorA', divisorA);
 
-  svg
-    .attr('viewBox', `0 0 ${width} ${height}`)
-    .attr('preserveAspectRatio', stretchPref);
-
-  var path = svg.select('path');
-  if (path.empty()) {
-    path = svg.append('path');
+  if (direction[1] === 0) {
+    area.x1(getCurrentThickness);
   }
-  path.attr('d', getPathDirections);
+  else {
+    area.y1(getCurrentThickness);
+  }
 
-  function getPathDirections() {
-    const divisorA = 10 + probable.rollDie(4);
-    const divisorB = 2 + probable.roll(2);
-    console.log('divisorA', divisorA);
+  return area(range(tearFreq, length - tearFreq, tearFreq));
 
-    if (direction[1] === 0) {
-      area.x1(getCurrentThickness);
+  function getCurrentThickness(p) {
+    var currentThickness = 0;
+    if (p === 0 || p >= length - tearFreq) {
+      if (direction[0] < 0 || direction[1] < 0) {
+        currentThickness = maxThickness;
+      }
     }
     else {
-      area.y1(getCurrentThickness);
-    }
+      let thicknessDelta = Math.sin(p/divisorA) * maxThickness/divisorB;
 
-    return area(range(tearFreq, length - tearFreq, tearFreq));
-  
-    function getCurrentThickness(p) {
-      var currentThickness = 0;
-      if (p === 0 || p >= length - tearFreq) {
-        if (direction[0] < 0 || direction[1] < 0) {
-          currentThickness = maxThickness;
-        }
+      if (direction[0] < 0 || direction[1] < 0) {
+        currentThickness = maxThickness/2 + thicknessDelta;
       }
       else {
-        let thicknessDelta = Math.sin(p/divisorA) * maxThickness/divisorB;
-
-        if (direction[0] < 0 || direction[1] < 0) {
-          currentThickness = maxThickness/2 + thicknessDelta;
-        }
-        else {
-          currentThickness = maxThickness/2 - thicknessDelta;
-        }
-
-        currentThickness += Math.sin(p/4) * maxThickness/6;
-
-        if (probable.roll(2) === 0) {
-          currentThickness += probable.rollDie(maxThickness/5);
-        }
-        else {
-          currentThickness -= probable.rollDie(maxThickness/5);
-        }
+        currentThickness = maxThickness/2 - thicknessDelta;
       }
-      return currentThickness;
+
+      currentThickness += Math.sin(p/4) * maxThickness/6;
+
+      if (probable.roll(2) === 0) {
+        currentThickness += probable.rollDie(maxThickness/5);
+      }
+      else {
+        currentThickness -= probable.rollDie(maxThickness/5);
+      }
     }
+    return currentThickness;
   }
 }
 
