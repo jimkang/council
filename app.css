@@ -7,7 +7,8 @@ body {
 
 .choice {
   display: flex;
-  margin-bottom: 1em;
+  margin-bottom: 2em;
+  margin-top: 2em;
   flex-direction: column;
   align-items: center;
 }
@@ -22,7 +23,7 @@ body {
 }
 
 .presenter img {
-  /* max-width: 200px; */
+  box-shadow: 0px 0px 8px 0px hsla(0,0%,0%,0.5);
 }
 
 .hidden {
@@ -98,6 +99,11 @@ body.fantasy {
 
 .fantasy path {
   fill: hsla(34, 60%, 80%, 1);
+  stroke: 1px solid black;
+}
+
+.fantasy .choice .dialogue-text-board {
+  margin-top: -1.8em;
 }
 
 .fantasy .dialogue-text-board foreignObject {
