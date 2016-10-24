@@ -16,8 +16,12 @@ body {
   flex-direction: column;
 }
 
+.presenter {
+  margin-right: 1em;
+}
+
 .presenter img {
-  /*max-width: 200px;*/
+  max-width: 200px;
 }
 
 .hidden {
@@ -34,7 +38,7 @@ body {
 
 body.fantasy {
   font-family: 'Vesper Libre';
-  background-color: #222;
+  background-color: hsl(72, 24%, 55%);
 }
 
 .fantasy section {

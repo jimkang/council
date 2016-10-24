@@ -45,7 +45,7 @@ function getCouncil({numberOfMembers, retryCount}, done) {
 
   function decideOnSearch(error, results) {
     if (error) {
-      if (error.notFound) {
+      if (error.notFound || results.length < numberOfMembers) {
         if (retryCount < maxRetries) {
           var opts = {
             numberOfMembers: numberOfMembers,
