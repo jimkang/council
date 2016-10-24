@@ -129,11 +129,12 @@ function renderTears(textBoards) {
     var x = 0;
     var y = 0;
     if (direction[0] > 0) {
-      x = d3.select(this.parentNode).attr('width') - tearWidth;
+      x = d3.select(this.parentNode).attr('width') - tearWidth - 1;
     }
     if (direction[1] > 0) {
-      y = d3.select(this.parentNode).attr('height') - tearWidth;
+      y = d3.select(this.parentNode).attr('height') - tearWidth - 1;
     }
+    // Safari needs the -1; Chrome and Firefox do not.
     return `translate(${x}, ${y})`;
   }
 }
