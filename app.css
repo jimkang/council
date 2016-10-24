@@ -8,6 +8,7 @@ body {
 .choice {
   display: flex;
   margin-bottom: 1em;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -17,11 +18,11 @@ body {
 }
 
 .presenter {
-  margin-right: 1em;
+  margin-bottom: 1em;
 }
 
 .presenter img {
-  max-width: 200px;
+  /* max-width: 200px; */
 }
 
 .hidden {
@@ -52,7 +53,7 @@ body.fantasy {
   padding: 1em;
   color: hsla(184, 41%, 10%, 0.8);
   box-shadow: hsla(30, 30%, 50%, 0.5) 0px 0px 25px 0px;
-  min-height: 160px;
+  /* min-height: 160px; */
   flex-grow: 1;
 }
 
@@ -110,7 +111,7 @@ body.fantasy {
 
 .fantasy .problem {
   font-family: 'Eagle Lake', serif;
-  font-size: 2em;
+  font-size: 1.5em;
   color: hsl(29, 76%, 55%);
 }
 

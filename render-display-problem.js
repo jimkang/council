@@ -46,7 +46,12 @@ function renderDisplayProblem({problem, setRoute}) {
   displaySection.select('.problem .dialogue-text').text(problem.text);
 
   // This must go after the .dialogue-text contents are updated.
-  renderTears(displaySection.selectAll('.dialogue-text-board'));
+  // Hack: If this is called immediately, the clientHeight will not be correct yet.  
+  setTimeout(callRenderTears, 100);
+
+  function callRenderTears() {
+    renderTears(displaySection.selectAll('.dialogue-text-board'));
+  }
 
   function edit() {
     displaySection.classed('hidden', true);
@@ -58,7 +63,7 @@ function renderDisplayProblem({problem, setRoute}) {
   }
 
   function updateCouncil(members) {
-    console.log(members);
+    // console.log(members);
     for (var i = 0; i < members.length && i < problem.choices.length; ++i) {
       problem.choices[i].presenterImageURL = members[i];
     }
