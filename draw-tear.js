@@ -28,7 +28,7 @@ function drawTear({direction, length, maxThickness}) {
     area.y1(getCurrentThickness);
   }
 
-  return area(range(0, length, tearFreq));
+  return area(range(0 + tearFreq, length - tearFreq, tearFreq));
 
   function getCurrentThickness(p) {
     var currentThickness = 0;
