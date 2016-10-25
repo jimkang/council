@@ -1,6 +1,7 @@
 var d3 = require('d3-selection');
 var accessor = require('accessor');
 var addNewProblem = require('./add-new-problem');
+var tornPaperBoxKit = require('./torn-paper-box-kit');
 
 var getId = accessor();
 
@@ -10,7 +11,7 @@ function renderListProblems({problemsData, setRoute, saveProblem}) {
   var listSection = d3.select('#list-problems');
   listSection.classed('hidden', false);
 
-  listSection.select('.add-button').on('click', add);
+  listSection.select('#add-button').on('click', add);
 
   var problemsRoot = listSection.select('.problems-root');
   var problems = problemsRoot.selectAll('.problem').data(problemsData, getId);
@@ -18,12 +19,17 @@ function renderListProblems({problemsData, setRoute, saveProblem}) {
   problems.exit().remove();
 
   var newProblems = problems.enter().append('li').classed('problem', true);
-  newProblems.append('div').classed('problem-text', true).on('click', display);
-  newProblems.append('button').classed('edit-button', true).text('Edit').on('click', edit);
+
+  tornPaperBoxKit.setUpTornPaperBoxes(newProblems);
+
+  newProblems.selectAll('svg').on('click', display);
+  newProblems.append('a').classed('action-link', true).text('Edit').on('click', edit);
 
   var updateProblems = newProblems.merge(problems);
   updateProblems.attr('id', getId);
-  updateProblems.selectAll('.problem-text').text(accessor('text'));
+  updateProblems.selectAll('.problem .dialogue-text').text(accessor('text'));
+
+  tornPaperBoxKit.renderTearsAfterDelay(listSection);
 
   function display(problem) {
     listSection.classed('hidden', true);

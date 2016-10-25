@@ -121,6 +121,23 @@ body.fantasy {
   color: hsl(29, 76%, 55%);
 }
 
+#list-problems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#list-problems .problem {
+  cursor: pointer;
+  margin-bottom: 1em;
+}
+
+.fantasy .problem .action-link {
+  font-size: 1.5em;
+  align-self: flex-end;
+  margin-top: 0.5em;
+}
+
 .fantasy a {
   font-family: 'Eagle Lake', serif;
   font-weight: bold;
@@ -129,7 +146,7 @@ body.fantasy {
   color: #ddd;
 }
 
-.fantasy .change-council-link {
+.fantasy .action-link {
   color: hsla(153,0%,24%,1);
   cursor: pointer;
   font-size: 2em;
