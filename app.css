@@ -27,7 +27,7 @@ body {
 }
 
 .hidden {
-  display: none;
+  display: none !important;
   opacity: 0;
   transition: opacity 1s;
 }
