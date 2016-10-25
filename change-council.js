@@ -2,12 +2,15 @@ var getCouncil = require('./get-council');
 var sb = require('standard-bail')();
 
 function changeCouncil(problem, done) {
-  getCouncil({numberOfMembers: problem.choices.length}, sb(updateMembers, done));
+  getCouncil({numberOfMembers: problem.choices.length}, sb(updateChoices, done));
 
-  function updateMembers(members) {
-    // console.log(members);
-    for (var i = 0; i < members.length && i < problem.choices.length; ++i) {
-      problem.choices[i].presenterImageURL = members[i];
+  function updateChoices(councilResults) {
+    for (var i = 0; i < councilResults.length && i < problem.choices.length; ++i) {
+      let choice = problem.choices[i];
+      let result = councilResults[i];
+      choice.presenterImageURL = result.url;
+      choice.imageTitle = result.title;
+      choice.imageSource = result.source;
     }
     done(null, problem);
   }

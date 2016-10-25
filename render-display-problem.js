@@ -25,13 +25,20 @@ function renderDisplayProblem({problem, commitChanges, setRoute}) {
   choices.exit().remove();
 
   var newChoices = choices.enter().append('li').classed('choice', true);
-  newChoices.append('div').classed('presenter', true).append('img');
+  newChoices.append('div').classed('presenter', true)
+    .append('a').classed('attribution-link', true)
+    .append('img');
 
   tornPaperBoxKit.setUpTornPaperBoxes(newChoices);
 
   var updateChoices = newChoices.merge(choices);
   updateChoices.attr('id', getId);
-  updateChoices.selectAll('.presenter img').attr('src', accessor('presenterImageURL'));
+  updateChoices.selectAll('.presenter img')
+    .attr('src', accessor('presenterImageURL'))
+    .attr('alt', accessor('imageTitle'));
+  updateChoices.selectAll('.attribution-link')
+    .attr('href', accessor('imageSource'));
+
   updateChoices.selectAll('.dialogue-text').text(accessor('text'));
 
   displaySection.select('.problem .dialogue-text').text(problem.text);

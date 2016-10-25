@@ -69,15 +69,19 @@ function getCouncil({numberOfMembers, retryCount}, done) {
   }
 
   function pickImage(searchResults) {
-    var images = probable.shuffle(searchResults)
+    var councilResults = probable.shuffle(searchResults)
       .slice(0, numberOfMembers)
-      .map(searchResultToMember);
-    done(null, images);
+      .map(searchResultToCouncilResult);
+    done(null, councilResults);
   }
 }
 
-function searchResultToMember(result) {
-  return `https://farm${result.farm}.staticflickr.com/${result.server}/${result.id}_${result.secret}.jpg`;
+function searchResultToCouncilResult(result) {
+  return {
+    url: `https://farm${result.farm}.staticflickr.com/${result.server}/${result.id}_${result.secret}.jpg`,
+    title: result.title,
+    source: `https://www.flickr.com/photos/${result.owner}/${result.id}`
+  };
 }
 
 module.exports = getCouncil;
