@@ -1,6 +1,6 @@
 var d3 = require('d3-selection');
 var accessor = require('accessor');
-var getCouncil = require('./get-council');
+var changeCouncil = require('./change-council');
 var handleError = require('./handle-error');
 var sb = require('standard-bail')();
 var tornPaperBoxKit = require('./torn-paper-box-kit');
@@ -10,7 +10,7 @@ var getId = accessor();
 function renderDisplayProblem({problem, commitChanges, setRoute}) {
   d3.selectAll('body > section:not(#display-problem)').classed('hidden', true);
 
-  d3.select('#change-council-link').on('click', changeCouncil);
+  d3.select('#change-council-link').on('click', updateCouncil);
 
   var displaySection = d3.select('#display-problem');
   displaySection.classed('hidden', false);
@@ -43,16 +43,11 @@ function renderDisplayProblem({problem, commitChanges, setRoute}) {
     setRoute('/problem/' + problem.id + '/edit');
   }
 
-  function changeCouncil() {
-    getCouncil({numberOfMembers: problem.choices.length}, sb(updateCouncil, handleError));
+  function updateCouncil() {
+    changeCouncil(problem, sb(saveAndRender, handleError));
   }
 
-  function updateCouncil(members) {
-    // console.log(members);
-    for (var i = 0; i < members.length && i < problem.choices.length; ++i) {
-      problem.choices[i].presenterImageURL = members[i];
-    }
-
+  function saveAndRender() {
     commitChanges(problem, handleError);
 
     renderDisplayProblem({

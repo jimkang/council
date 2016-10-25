@@ -44,6 +44,8 @@ function getCouncil({numberOfMembers, retryCount}, done) {
   searchFlickr(searchTerm, idsForLibraries[library], decideOnSearch);
 
   function decideOnSearch(error, results) {
+    // TODO: Fallback images.
+
     if (error) {
       if (error.notFound || results.length < numberOfMembers) {
         if (retryCount < maxRetries) {

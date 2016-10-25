@@ -8,7 +8,7 @@ var handleError = require('./handle-error');
 var addNewProblem = require('./add-new-problem');
 var walkMachine = require('walk-machine');
 var callNextTick = require('call-next-tick');
-var queue = require('d3-queue').queue;
+var changeCouncil = require('./change-council');
 
 // require('longjohn');
 
@@ -56,7 +56,7 @@ var store;
         next: pickStateAfterLoad
       },
       loadImages: {
-        work: findImages,
+        work: changeCouncil,
         next: 'render'
       },
       render: {
@@ -72,27 +72,6 @@ var store;
         nextState = 'render';
       }
       done(null, nextState);
-    }
-
-    function findImages(problem, done) {
-      var q = queue();
-      problem.choices.forEach(queueGetImage);
-      q.awaitAll(sb(passProblem, done));
-
-      function passProblem() {
-        done(null, problem);
-      }
-      
-      function queueGetImage(choice) {
-        // TODO: Actual impl.
-        q.defer(setImage, choice);
-
-        function setImage(choice, done) {
-          choice.presenterImageURL = 'http://smidgeo.com/images/smidgeo_on_the_move.png';
-          done(null, choice);
-        }
-        // callNextTick(done, null, choice);
-      }
     }
 
     function callRender(problem, done) {
