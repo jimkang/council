@@ -19,6 +19,7 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
 
   editSection.select('.problem .dialogue-text').datum(problem)
     .text(problem.text)
+    .on('click', addEditingClass)
     .on('blur', onEndProblemTextEdit);
 
   var choiceRoot = editSection.select('.choice-root');
@@ -31,6 +32,7 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
 
   newChoices.selectAll('.dialogue-text')
     .attr('contenteditable', true)
+    .on('click', addEditingClass)
     .on('blur', onEndChoiceEdit);
 
   var updateChoices = newChoices.merge(choices);
@@ -45,13 +47,24 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
   }
 
   function onEndProblemTextEdit(p) {
+    this.classList.remove('editing');
     p.text = this.textContent;
     commitChanges(problem, handleError);
   }
 
   function onEndChoiceEdit(choice) {
+    this.classList.remove('editing');
     choice.text = this.textContent;
     commitChanges(problem, handleError);
+    renderEditProblem({
+      problem: problem,
+      commitChanges: commitChanges,
+      setRoute: setRoute
+    });
+  }
+
+  function addEditingClass() {
+    this.classList.add('editing');
   }
 
   function view() {

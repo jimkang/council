@@ -22,6 +22,10 @@ body {
   align-items: center;
 }
 
+.editing {
+  z-index: 100;
+}
+
 .presenter {
   margin-bottom: 1em;
 }
