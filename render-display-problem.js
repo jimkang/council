@@ -20,6 +20,8 @@ function renderDisplayProblem({problem, commitChanges, setRoute}) {
 
   var choiceRoot = displaySection.select('.choice-root');
   var choices = choiceRoot.selectAll('.choice').data(problem.choices, getId);
+  // Also (re-)bind data to img elements so accessors using them work with current data.
+  choices.selectAll('.presenter img').data(problem.choices, getId);
 
   choices.exit().remove();
 
@@ -67,7 +69,9 @@ function renderDisplayProblem({problem, commitChanges, setRoute}) {
     for (var i = 0; i < members.length && i < problem.choices.length; ++i) {
       problem.choices[i].presenterImageURL = members[i];
     }
+
     commitChanges(problem, handleError);
+
     renderDisplayProblem({
       problem: problem,
       commitChanges: commitChanges,
