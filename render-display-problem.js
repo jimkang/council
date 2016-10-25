@@ -8,7 +8,7 @@ var sb = require('standard-bail')();
 var getId = accessor();
 const tearWidth = 5;
 
-function renderDisplayProblem({problem, setRoute}) {
+function renderDisplayProblem({problem, commitChanges, setRoute}) {
   d3.selectAll('body > section:not(#display-problem)').classed('hidden', true);
 
   d3.select('.change-council-link').on('click', changeCouncil);
@@ -67,7 +67,12 @@ function renderDisplayProblem({problem, setRoute}) {
     for (var i = 0; i < members.length && i < problem.choices.length; ++i) {
       problem.choices[i].presenterImageURL = members[i];
     }
-    renderDisplayProblem({problem, setRoute});
+    commitChanges(problem, handleError);
+    renderDisplayProblem({
+      problem: problem,
+      commitChanges: commitChanges,
+      setRoute: setRoute
+    });
   }
 }
 

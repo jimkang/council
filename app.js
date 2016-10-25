@@ -98,6 +98,7 @@ var store;
     function callRender(problem, done) {
       renderDisplayProblem({
         problem: problem,
+        commitChanges: store.saveProblem,
         setRoute: safeSetRoute
       });
       callNextTick(done);
