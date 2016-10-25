@@ -31,9 +31,18 @@
 
 <section id="edit-problem" class="hidden">
   <div class="problem">
-    <div class="title">What is the problem?</div>
-    <div class="problem-text" contenteditable="true"></div>
+    <h3 class="heading">The problem:</h3>
+    <svg class="dialogue-text-board">
+      <foreignObject width="100%" height="100%" x="5" y="5">
+        <div class="dialogue-text-container">
+          <div class="dialogue-text"></div>
+        </div>
+      </foreignObject>
+    </svg>
   </div>
+
+  <h3 class="heading">Your choices:</h3>
+
   <ul class="choice-root">
   </ul>
   <button class="add-choice-button">Add choice</button>

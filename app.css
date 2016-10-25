@@ -2,7 +2,6 @@
 
 body {
   font-family: 'helvetica neue';
-  color: #333;
 }
 
 .choice {
@@ -13,9 +12,14 @@ body {
   align-items: center;
 }
 
+.choice-root {
+  padding-left: 0;
+}
+
 .problem {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .presenter {
@@ -35,12 +39,14 @@ body {
 #edit-problem {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 
 body.fantasy {
   font-family: 'Vesper Libre';
   background-color: hsl(72, 24%, 55%);
+  color: hsla(153, 0%, 24%,1);
 }
 
 .fantasy section {
@@ -115,10 +121,12 @@ body.fantasy {
   stroke-width: 2;
 }
 
-.fantasy .problem {
-  font-family: 'Eagle Lake', serif;
+.fantasy .problem .dialogue-text {
   font-size: 1.2em;
-  color: hsl(29, 76%, 55%);
+}
+
+.fantasy .heading {
+  font-size: 1.5em;
 }
 
 #list-problems {

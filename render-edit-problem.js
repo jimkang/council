@@ -3,6 +3,7 @@ var createChoice = require('./create-choice');
 var callNextTick = require('call-next-tick');
 var accessor = require('accessor');
 var handleError = require('./handle-error');
+var tornPaperBoxKit = require('./torn-paper-box-kit');
 
 var getId = accessor();
 
@@ -16,7 +17,7 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
   editSection.select('.add-choice-button').on('click', addChoice);
   editSection.select('.view-button').on('click', view);
 
-  editSection.select('.problem .problem-text').datum(problem)
+  editSection.select('.problem .dialogue-text').datum(problem)
     .text(problem.text)
     .on('blur', onEndProblemTextEdit);
 
@@ -26,16 +27,17 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
   choices.exit().remove();
 
   var newChoices = choices.enter().append('li').classed('choice', true);
-  // newChoices.append('img').classed('presenter', true);
-  newChoices.append('div')
-    .classed('choice-text', true)
+  tornPaperBoxKit.setUpTornPaperBoxes(newChoices);
+
+  newChoices.selectAll('.dialogue-text')
     .attr('contenteditable', true)
     .on('blur', onEndChoiceEdit);
 
   var updateChoices = newChoices.merge(choices);
   updateChoices.attr('id', getId);
-  // updateChoices.selectAll('.presenter').attr('src', accessor('presenterImageURL'));
-  updateChoices.selectAll('.choice-text').text(accessor('text'));
+  updateChoices.selectAll('.dialogue-text').text(accessor('text'));
+
+  tornPaperBoxKit.renderTearsAfterDelay(editSection);
 
   function addChoice() {
     problem.choices.push(createChoice());
