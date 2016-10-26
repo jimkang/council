@@ -69,6 +69,7 @@ body.fantasy {
 .fantasy #edit-problem .dialogue-text {
   background-color: wheat;
   filter: hue-rotate(10deg);
+  cursor: pointer;
 }
 
 .fantasy .dialogue-text-wrapper {
