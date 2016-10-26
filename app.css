@@ -46,6 +46,13 @@ body {
   align-items: center;
 }
 
+.fantasy #edit-problem .problem {
+  margin-bottom: 1em;
+}
+
+.fantasy #edit-problem .choice {
+  margin-top: 0;
+}
 
 body.fantasy {
   font-family: 'Vesper Libre';
