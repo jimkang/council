@@ -3,7 +3,6 @@ var createChoice = require('./create-choice');
 var callNextTick = require('call-next-tick');
 var accessor = require('accessor');
 var handleError = require('./handle-error');
-var tornPaperBoxKit = require('./torn-paper-box-kit');
 
 var getId = accessor();
 
@@ -19,7 +18,6 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
 
   editSection.select('.problem .dialogue-text').datum(problem)
     .text(problem.text)
-    .on('click', addEditingClass)
     .on('blur', onEndProblemTextEdit);
 
   var choiceRoot = editSection.select('.choice-root');
@@ -28,18 +26,14 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
   choices.exit().remove();
 
   var newChoices = choices.enter().append('li').classed('choice', true);
-  tornPaperBoxKit.setUpTornPaperBoxes(newChoices);
 
-  newChoices.selectAll('.dialogue-text')
+  newChoices.append('div').classed('dialogue-text', true)
     .attr('contenteditable', true)
-    .on('click', addEditingClass)
     .on('blur', onEndChoiceEdit);
 
   var updateChoices = newChoices.merge(choices);
   updateChoices.attr('id', getId);
   updateChoices.selectAll('.dialogue-text').text(accessor('text'));
-
-  tornPaperBoxKit.renderTearsAfterDelay(editSection);
 
   function addChoice() {
     problem.choices.push(createChoice());
@@ -47,13 +41,11 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
   }
 
   function onEndProblemTextEdit(p) {
-    this.classList.remove('editing');
     p.text = this.textContent;
     commitChanges(problem, handleError);
   }
 
   function onEndChoiceEdit(choice) {
-    this.classList.remove('editing');
     choice.text = this.textContent;
     commitChanges(problem, handleError);
     renderEditProblem({
@@ -61,10 +53,6 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
       commitChanges: commitChanges,
       setRoute: setRoute
     });
-  }
-
-  function addEditingClass() {
-    this.classList.add('editing');
   }
 
   function view() {
