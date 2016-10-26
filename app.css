@@ -70,6 +70,7 @@ body.fantasy {
   background-color: wheat;
   filter: hue-rotate(10deg);
   cursor: pointer;
+  border-radius: 0.25em;
 }
 
 .fantasy .dialogue-text-wrapper {
@@ -131,7 +132,8 @@ body.fantasy {
 }
 
 .fantasy .problem .dialogue-text {
-  font-size: 1.2em;
+  font-family: 'Eagle Lake', serif;
+  font-size: 1.5em;
 }
 
 .fantasy .heading {
@@ -144,9 +146,18 @@ body.fantasy {
   align-items: center;
 }
 
+#list-problems h1 {
+  font-size: 2em;
+  font-family: 'Eagle Lake', serif;
+}
+
 #list-problems .problem {
   cursor: pointer;
   margin-bottom: 1em;
+}
+
+.problems-root {
+  padding-left: 0;
 }
 
 .fantasy .problem .action-link {
@@ -156,7 +167,6 @@ body.fantasy {
 }
 
 .fantasy a {
-  font-family: 'Eagle Lake', serif;
   font-weight: bold;
   font-size: 1.5em;
   text-decoration: none;
@@ -166,7 +176,7 @@ body.fantasy {
 .fantasy .action-link {
   color: hsla(153,0%,24%,1);
   cursor: pointer;
-  font-size: 2em;
+  font-size: 1.5em;
   margin-bottom: 1em;
   text-shadow: 0px 0px 1px hsla(54,20%,62%,0.7);
 }

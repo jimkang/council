@@ -1,9 +1,9 @@
 var renderEditProblem = require('./render-edit-problem');
 var randomId = require('idmaker').randomId;
 
-function addNewProblem({saveProblem, setRoute}) {
+function addNewProblem({saveProblem, problemDef, setRoute}) {
   renderEditProblem({
-    problem: createNewProblem(),
+    problem: problemDef ? problemDef : createNewProblem(),
     commitChanges: saveProblem,
     setRoute: setRoute
   });
