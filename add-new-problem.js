@@ -11,9 +11,18 @@ function addNewProblem({saveProblem, problemDef, setRoute}) {
   function createNewProblem() {
     return {
       id: 'problem-' + randomId(4),
-      text: '<Your problem goes here.>',
+      text: 'Here is a problem. <Click to edit this problem.>',
       presenterImageURL: '',
-      choices: []
+      choices: [
+        {
+          "id": "default-choice-a",
+          "text": "You can do this. <Click to edit this choice.>"
+        },
+        {
+          "id": "default-choice-b",
+          "text": "Or you can do that. <Click to edit this choice.>"
+        }
+      ]
     };
   }
 }
