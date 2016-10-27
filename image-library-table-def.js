@@ -1,8 +1,7 @@
 module.exports = [
-  [2, 'The British Library'],
-  [1, 'US National Archives'],
-  [1, 'Museum of Photographic Arts'],
+  [3, 'The British Library'],
+  [2, 'US National Archives'],
   [1, 'New York Public Library'],
-  [1, 'The Library of Congress'],
-  [1, 'Internet Archive Book Images'],
+  [2, 'The Library of Congress'],
+  [5, 'Internet Archive Book Images']
 ];

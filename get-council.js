@@ -13,8 +13,7 @@ var libraryTable = probable.createTableFromSizes(imageLibraryTableDef);
 var idsForLibraries = {
   'The British Library': '12403504@N02',
   'US National Archives': 'usnationalarchives',
-  'Museum of Photographic Arts': '61498590@N03',
-  'New York Public Library': '3295198@N05',
+  'New York Public Library': 'nypl',
   'The Library of Congress': 'library_of_congress',
   'Internet Archive Book Images': '126377022@N07'
 };
@@ -34,7 +33,13 @@ function getCouncil({numberOfMembers, retryCount}, done) {
   var searchTerm = termTable.roll();
   console.log(searchTerm, library, 'retryCount', retryCount);
 
-  searchFlickr(searchTerm, idsForLibraries[library], decideOnSearch);
+  searchFlickr(
+    {
+      term: searchTerm,
+      userId: idsForLibraries[library]
+    },
+    decideOnSearch
+  );
 
   function decideOnSearch(error, results) {
     // TODO: Fallback images.
