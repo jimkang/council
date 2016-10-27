@@ -45,7 +45,7 @@ var store;
     }
 
     function goToWelcome() {
-      safeSetRoute('/problem/problem-welcome');
+      safeSetRoute('/problem/problem-hello');
     }
   }
 

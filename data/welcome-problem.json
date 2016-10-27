@@ -1,70 +1,84 @@
 {
-  "id": "problem-welcome",
+  "id": "problem-hello",
   "text": "What is Council and how do I use it?",
   "presenterImageURL": "",
   "choices": [
     {
-      "id": "choice-bjfQ",
-      "text": "Council is an app that helps you talk through things with yourself. Sometimes, just reading your choices back to yourself helps with thinking about a situation.",
-      "presenterImageURL": "https://farm3.staticflickr.com/2562/3971218997_5b66a626d7.jpg",
-      "imageTitle": "Young Female Fox near Galbraith Lake Camp 08/1973",
-      "imageSource": "https://www.flickr.com/photos/35740357@N03/3971218997"
+      "id": "default-choice-a",
+      "text": "Council is an app that will put pictures of beings (people and animals, usually) next to text that you write.",
+      "presenterImageURL": "https://farm4.staticflickr.com/3878/14753591776_f70d2cb5ff.jpg",
+      "imageTitle": "Image from page 302 of \"Annual report of the Fruit Growers' Association of Ontario, 1896\" (1897)",
+      "imageSource": "https://www.flickr.com/photos/126377022@N07/14753591776"
     },
     {
-      "id": "choice-CObG",
-      "text": "In programming, this is sometimes called \"rubber duck debugging\" because you can literally explain your problem and options for dealing with it to a rubber duck. However, it can apply to many other kinds of decision making situations, big and small, from \"What should I make for dinner?\" to \"Should I interview for this job?\" This process is useful even for topics you don't even want a single correct answer for, like \"Who is the best cat?\"",
-      "presenterImageURL": "https://farm8.staticflickr.com/7238/7158532550_3ee68aeed9.jpg",
-      "imageTitle": "Shorebird wading in Upper Newport Bay, near Newport Beach, May 1975",
-      "imageSource": "https://www.flickr.com/photos/35740357@N03/7158532550"
+      "id": "default-choice-b",
+      "text": "You write out your \"problem\" (or topic) and \"choices\" (or responses) that go with it. Then, you send it before a council! The council is just images of beings from various public domain image sources, like The British Library and the Library of Congress.",
+      "presenterImageURL": "https://farm3.staticflickr.com/2900/14775359564_4dd237c52b.jpg",
+      "imageTitle": "Image from page 265 of \"General physiology of muscles and nerves\" (1881)",
+      "imageSource": "https://www.flickr.com/photos/126377022@N07/14775359564"
     },
     {
-      "id": "choice-uUgz",
-      "text": "In Council, you write out your \"problem\" (or topic) and the choices you have to respond to it with. Then, you send it before a council! The council is just images of beings from various public domain image sources, like The British Library and the Library of Congress. Each choice is presented by a different council member. It's like when NPCs in a video game like Baldur's Gate II or King of Dragon Pass all pipe up with advice for you! Hopefully, this changes your perspective a little, or at least makes your possible choices easier to read.",
-      "presenterImageURL": "https://farm8.staticflickr.com/7175/6461531797_fd5b913bdb.jpg",
-      "imageTitle": "Official Portrait of Buddy the Dog: 04/22/1998",
-      "imageSource": "https://www.flickr.com/photos/35740357@N03/6461531797"
+      "id": "choice-JqXx",
+      "text": "Each choice is presented by a different council member. It's like when NPCs in a video game like Baldur's Gate II or King of Dragon Pass all pipe up with advice for you!",
+      "presenterImageURL": "https://farm6.staticflickr.com/5595/14796483643_3862967b71.jpg",
+      "imageTitle": "Image from page 233 of \"Webster's practical dictionary; a practical dictionary of the English language giving the correct spelling, pronunciation and definitions of words based on the unabridged dictionary of Noah Webster ..\" (1910)",
+      "imageSource": "https://www.flickr.com/photos/126377022@N07/14796483643"
     },
     {
-      "id": "choice-esoQ",
-      "text": "To view all of your problems, you can click on \"All Problems\" at the bottom of every view.",
-      "presenterImageURL": "https://farm4.staticflickr.com/3240/3704380182_50f1bd5b21.jpg",
-      "imageTitle": "Wild Deer in Garner State Park 07/1972",
-      "imageSource": "https://www.flickr.com/photos/35740357@N03/3704380182"
+      "id": "choice-FAuz",
+      "text": "You can use to talk through things with yourself. Sometimes, just reading your choices back to yourself helps with thinking about a situation. In programming, this is sometimes called \"rubber duck debugging\" because you can gain insight into a problem by literally explaining your situation to a rubber duck.",
+      "presenterImageURL": "https://farm6.staticflickr.com/5577/14591120358_db886852f6.jpg",
+      "imageTitle": "Image from page 133 of \"Sermons by Rev. Sam. P. Jones : as stenographically reported, and delivered in St. Louis, Cincinnati, Chicago, Baltimore, Atlanta, Nashville, Waco and other cities : with a history of his life, by Theodore M. Smith : with sermons b",
+      "imageSource": "https://www.flickr.com/photos/126377022@N07/14591120358"
     },
     {
-      "id": "choice-wFHA",
-      "text": "To add a new problem, you can click \"Add new problem\" at the bottom of the All Problems view.",
-      "presenterImageURL": "https://farm6.staticflickr.com/5256/5589767138_51465f533c.jpg",
-      "imageTitle": "Cudahy Packing Co., Omaha, Nebraska, 1910",
-      "imageSource": "https://www.flickr.com/photos/35740357@N03/5589767138"
+      "id": "choice-DkKN",
+      "text": "However, it can also apply to questions like \"What should I make for dinner?\" to \"Should I interview for this job?\" It's also good for exploring ideas that don't have a single answer like \"Who is the best cat?\"",
+      "presenterImageURL": "https://farm6.staticflickr.com/5557/14590058719_51fba67784.jpg",
+      "imageTitle": "Image from page 38 of \"Animal products;\" (1877)",
+      "imageSource": "https://www.flickr.com/photos/126377022@N07/14590058719"
     },
     {
-      "id": "choice-QKSN",
+      "id": "choice-mhwk",
+      "text": "Or you can use it to explain things, like this \"problem\" is doing! Or just put pictures next to pieces of text. It's not unlike zombo.com, in that sense.",
+      "presenterImageURL": "https://farm6.staticflickr.com/5584/14589891909_2409a6fa68.jpg",
+      "imageTitle": "Image from page 103 of \"Zoological Society bulletin\" (1901)",
+      "imageSource": "https://www.flickr.com/photos/126377022@N07/14589891909"
+    },
+    {
+      "id": "choice-hfBm",
+      "text": "To view all of your problems, you can click on \"All Problems\" at the bottom of every view. To add a new problem, you can click \"Add new problem\" at the bottom of the All Problems view.",
+      "presenterImageURL": "https://farm3.staticflickr.com/2895/14589890249_71164196f1.jpg",
+      "imageTitle": "Image from page 27 of \"Profit and pleasure in goat-keeping; a practical conservative treatise presenting in concrete form the advantages of the modern milch goat, the various breeds, their care and management\" (1915)",
+      "imageSource": "https://www.flickr.com/photos/126377022@N07/14589890249"
+    },
+    {
+      "id": "choice-MaHU",
       "text": "In the editing view, click on the Problem text to edit it, then click outside of it to complete editing. (Later on, you'll be able to hit Cmd+Enter to complete.) Click \"Add choice\" to add a new choice, then click on the choice to edit it. Finally, you can view it with a council by click \"Send before a council\"!",
-      "presenterImageURL": "https://farm4.staticflickr.com/3511/3704375112_c04179349c.jpg",
-      "imageTitle": "Wild Deer 06/1972",
-      "imageSource": "https://www.flickr.com/photos/35740357@N03/3704375112"
+      "presenterImageURL": "https://farm4.staticflickr.com/3901/14777276752_b73f33365a.jpg",
+      "imageTitle": "Image from page 76 of \"Christian faith in an age of science\" (1903)",
+      "imageSource": "https://www.flickr.com/photos/126377022@N07/14777276752"
     },
     {
-      "id": "choice-anFt",
-      "text": "In the council view, you can click \"Change council\" to get a new council if you'd like your stuff presented to you by a fresh council.",
-      "presenterImageURL": "https://farm8.staticflickr.com/7251/6919491636_99eefafc5f.jpg",
-      "imageTitle": "Porcupine in tree Great Sand Dunes National Monument, 05/1972.",
-      "imageSource": "https://www.flickr.com/photos/35740357@N03/6919491636"
+      "id": "choice-PBXu",
+      "text": "In the council view, you can click \"Change council\" to get a new council if you'd like your stuff presented to you by a fresh council. This may be the funnest part of the app.",
+      "presenterImageURL": "https://farm4.staticflickr.com/3902/14591134640_d91aa251d1.jpg",
+      "imageTitle": "Image from page 542 of \"Transactions of the American Philosophical Society ..\" (1771)",
+      "imageSource": "https://www.flickr.com/photos/126377022@N07/14591134640"
     },
     {
-      "id": "choice-ZZFr",
+      "id": "choice-pZai",
       "text": "Your problems are all kept locally in your browser. They are not shared anywhere else.",
-      "presenterImageURL": "https://farm9.staticflickr.com/8151/7158445148_36b3aa4911.jpg",
-      "imageTitle": "Youngsters wash their horses in Upper Newport Bay in Orange County, May 1975",
-      "imageSource": "https://www.flickr.com/photos/35740357@N03/7158445148"
+      "presenterImageURL": "https://farm4.staticflickr.com/3885/14774672731_6392180025.jpg",
+      "imageTitle": "Image from page 534 of \"Transactions of the American Philosophical Society ..\" (1771)",
+      "imageSource": "https://www.flickr.com/photos/126377022@N07/14774672731"
     },
     {
-      "id": "choice-VMzi",
+      "id": "choice-uhVL",
       "text": "Have fun and enjoy your councils! Email jimkang@gmail.com or tweet @deathmtn if you have questions.",
-      "presenterImageURL": "https://farm6.staticflickr.com/5348/7065537385_3cbdd3bbe0.jpg",
-      "imageTitle": "Mule deer. Great Sand Dunes National Monument, 05/1972.",
-      "imageSource": "https://www.flickr.com/photos/35740357@N03/7065537385"
+      "presenterImageURL": "https://farm3.staticflickr.com/2940/14774479844_eebe4d5a90.jpg",
+      "imageTitle": "Image from page 307 of \"Animal products;\" (1877)",
+      "imageSource": "https://www.flickr.com/photos/126377022@N07/14774479844"
     }
   ]
 }

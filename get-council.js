@@ -15,7 +15,12 @@ var idsForLibraries = {
   'US National Archives': 'usnationalarchives',
   'New York Public Library': 'nypl',
   'The Library of Congress': 'library_of_congress',
-  'Internet Archive Book Images': '126377022@N07'
+  'Internet Archive Book Images': '126377022@N07',
+  'Texas State Library': 'txstate-library',
+  'Archivo Historico': '99115493@N08',
+  'National Library of Medicine': 'nlmhmd',
+  'Museum of Hartlepool': 'hartlepool_museum',
+  'NASA': 'nasacommons'
 };
 
 var searchFlickr = SearchFlickr({
