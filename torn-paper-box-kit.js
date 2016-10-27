@@ -22,7 +22,7 @@ function setUpTornPaperBoxes(parentSel) {
 function renderTearsAfterDelay(parentSelectionSel) {
   // This must go after the .dialogue-text contents are updated.
   // Hack: If this is called immediately, the clientHeight will not be correct yet.  
-  setTimeout(callRenderTears, 100);
+  setTimeout(callRenderTears, 300);
 
   function callRenderTears() {
     renderTears(parentSelectionSel.selectAll('.dialogue-text-board'));

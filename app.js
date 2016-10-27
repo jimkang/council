@@ -5,10 +5,10 @@ var renderListProblems = require('./render-list-problems');
 var Store = require('./store');
 var sb = require('standard-bail')();
 var handleError = require('./handle-error');
-var addNewProblem = require('./add-new-problem');
 var walkMachine = require('walk-machine');
 var callNextTick = require('call-next-tick');
 var changeCouncil = require('./change-council');
+var welcomeProblem = require('./data/welcome-problem.json');
 
 // require('longjohn');
 
@@ -33,10 +33,7 @@ var store;
 
     function decideWithProblems(problems) {
       if (!problems || problems.length < 1) {
-        addNewProblem({
-          saveProblem: store.saveProblem,
-          setRoute: safeSetRoute
-        });
+        store.saveProblem(welcomeProblem, sb(goToWelcome, handleError));
       }
       else {
         renderListProblems({
@@ -45,6 +42,10 @@ var store;
           setRoute: safeSetRoute
         });
       }
+    }
+
+    function goToWelcome() {
+      safeSetRoute('/problem/problem-welcome');
     }
   }
 

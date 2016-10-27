@@ -7,15 +7,15 @@ function addNewProblem({saveProblem, problemDef, setRoute}) {
     commitChanges: saveProblem,
     setRoute: setRoute
   });
-}
 
-function createNewProblem() {
-  return {
-    id: 'problem-' + randomId(4),
-    text: '<Your problem goes here.>',
-    presenterImageURL: '',
-    choices: []
-  };
+  function createNewProblem() {
+    return {
+      id: 'problem-' + randomId(4),
+      text: '<Your problem goes here.>',
+      presenterImageURL: '',
+      choices: []
+    };
+  }
 }
 
 module.exports = addNewProblem;
