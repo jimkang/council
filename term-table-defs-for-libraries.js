@@ -47,7 +47,6 @@ module.exports = {
     [1, 'forest'],
     [1, 'tiger'],
     [2, 'face'],
-    [1, 'head'],
     [2, 'person'],
     [2, 'portrait'],
     [2, 'woman'],
