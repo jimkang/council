@@ -15,12 +15,12 @@ function addNewProblem({saveProblem, problemDef, setRoute}) {
       presenterImageURL: '',
       choices: [
         {
-          "id": "default-choice-a",
-          "text": "You can do this. <Click to edit this choice.>"
+          'id': 'default-choice-a',
+          'text': 'You can do this. <Click to edit this choice.>'
         },
         {
-          "id": "default-choice-b",
-          "text": "Or you can do that. <Click to edit this choice.>"
+          'id': 'default-choice-b',
+          'text': 'Or you can do that. <Click to edit this choice.>'
         }
       ]
     };

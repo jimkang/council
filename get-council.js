@@ -3,8 +3,12 @@ var SearchFlickr = require('./search-flickr');
 var config = require('./config');
 var probable = require('probable');
 var callNextTick = require('call-next-tick');
+var imageLibraryTableDef = require('./image-library-table-def');
+var termTableDefsForLibraries = require('./term-table-defs-for-libraries');
 
 const maxRetries = 5;
+
+var libraryTable = probable.createTableFromSizes(imageLibraryTableDef);
 
 var idsForLibraries = {
   'The British Library': '12403504@N02',
@@ -14,18 +18,6 @@ var idsForLibraries = {
   'The Library of Congress': 'library_of_congress',
   'Internet Archive Book Images': '126377022@N07'
 };
-
-var searchTerms = [
-  'face',
-  'head',
-  'portrait',
-  'person',
-  'woman',
-  'man',
-  'animal',
-  'bird',
-  'child'
-];
 
 var searchFlickr = SearchFlickr({
   flickrAPIKey: config.flickr.key,
@@ -37,8 +29,9 @@ function getCouncil({numberOfMembers, retryCount}, done) {
     retryCount = 0;
   }
 
-  var searchTerm = probable.pickFromArray(searchTerms);
-  var library = probable.pickFromArray(Object.keys(idsForLibraries));
+  var library = libraryTable.roll();
+  var termTable = probable.createTableFromSizes(termTableDefsForLibraries[library]);
+  var searchTerm = termTable.roll();
   console.log(searchTerm, library, 'retryCount', retryCount);
 
   searchFlickr(searchTerm, idsForLibraries[library], decideOnSearch);
