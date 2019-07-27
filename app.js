@@ -14,7 +14,7 @@ var welcomeProblem = require('./data/welcome-problem.json');
 
 var store;
 
-((((function init() {
+(function init() {
   store = Store();
 
   var router = director.Router({
@@ -34,8 +34,7 @@ var store;
     function decideWithProblems(problems) {
       if (!problems || problems.length < 1) {
         store.saveProblem(welcomeProblem, sb(goToWelcome, handleError));
-      }
-      else {
+      } else {
         renderListProblems({
           problemsData: problems,
           saveProblem: store.saveProblem,
@@ -69,7 +68,7 @@ var store;
 
     function pickStateAfterLoad(problem, done) {
       var nextState = 'loadImages';
-      if (problem.choices.every((choice) => choice.presenterImageURL)) {
+      if (problem.choices.every(choice => choice.presenterImageURL)) {
         nextState = 'render';
       }
       done(null, nextState);
@@ -96,5 +95,4 @@ var store;
       });
     }
   }
-
-})())));
+})();

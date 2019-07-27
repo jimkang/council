@@ -7,12 +7,11 @@ area.curve(shape.curveLinear);
 
 const tearFreq = 4;
 
-function drawTear({direction, length, maxThickness}) {
+function drawTear({ direction, length, maxThickness }) {
   if (direction[1] === 0) {
     area.x0(direction[0] < 0 ? maxThickness : 0);
     area.y(identity);
-  }
-  else {
+  } else {
     area.y0(direction[1] < 0 ? maxThickness : 0);
     area.x(identity);
   }
@@ -23,8 +22,7 @@ function drawTear({direction, length, maxThickness}) {
 
   if (direction[1] === 0) {
     area.x1(getCurrentThickness);
-  }
-  else {
+  } else {
     area.y1(getCurrentThickness);
   }
 
@@ -36,24 +34,21 @@ function drawTear({direction, length, maxThickness}) {
       if (direction[0] < 0 || direction[1] < 0) {
         currentThickness = maxThickness;
       }
-    }
-    else {
-      let thicknessDelta = Math.sin(p/divisorA) * maxThickness/divisorB;
+    } else {
+      let thicknessDelta = (Math.sin(p / divisorA) * maxThickness) / divisorB;
 
       if (direction[0] < 0 || direction[1] < 0) {
-        currentThickness = maxThickness/2 + thicknessDelta;
-      }
-      else {
-        currentThickness = maxThickness/2 - thicknessDelta;
+        currentThickness = maxThickness / 2 + thicknessDelta;
+      } else {
+        currentThickness = maxThickness / 2 - thicknessDelta;
       }
 
-      currentThickness += Math.sin(p/4) * maxThickness/6;
+      currentThickness += (Math.sin(p / 4) * maxThickness) / 6;
 
       if (probable.roll(2) === 0) {
-        currentThickness += probable.rollDie(maxThickness/5);
-      }
-      else {
-        currentThickness -= probable.rollDie(maxThickness/5);
+        currentThickness += probable.rollDie(maxThickness / 5);
+      } else {
+        currentThickness -= probable.rollDie(maxThickness / 5);
       }
     }
     return currentThickness;

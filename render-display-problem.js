@@ -7,7 +7,7 @@ var tornPaperBoxKit = require('./torn-paper-box-kit');
 
 var getId = accessor();
 
-function renderDisplayProblem({problem, commitChanges, setRoute}) {
+function renderDisplayProblem({ problem, commitChanges, setRoute }) {
   d3.selectAll('body > section:not(#display-problem)').classed('hidden', true);
 
   d3.select('#change-council-link').on('click', updateCouncil);
@@ -24,19 +24,27 @@ function renderDisplayProblem({problem, commitChanges, setRoute}) {
 
   choices.exit().remove();
 
-  var newChoices = choices.enter().append('li').classed('choice', true);
-  newChoices.append('div').classed('presenter', true)
-    .append('a').classed('attribution-link', true)
+  var newChoices = choices
+    .enter()
+    .append('li')
+    .classed('choice', true);
+  newChoices
+    .append('div')
+    .classed('presenter', true)
+    .append('a')
+    .classed('attribution-link', true)
     .append('img');
 
   tornPaperBoxKit.setUpTornPaperBoxes(newChoices);
 
   var updateChoices = newChoices.merge(choices);
   updateChoices.attr('id', getId);
-  updateChoices.selectAll('.presenter img')
+  updateChoices
+    .selectAll('.presenter img')
     .attr('src', accessor('presenterImageURL'))
     .attr('alt', accessor('imageTitle'));
-  updateChoices.selectAll('.attribution-link')
+  updateChoices
+    .selectAll('.attribution-link')
     .attr('href', accessor('imageSource'));
 
   updateChoices.selectAll('.dialogue-text').text(accessor('text'));

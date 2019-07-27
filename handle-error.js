@@ -10,7 +10,7 @@ function handleError(error) {
     text += error.message;
 
     if (error.stack) {
-      text = + ' | ' + error.stack.toString();
+      text = +' | ' + error.stack.toString();
     }
     updateStatusMessage(text);
   }

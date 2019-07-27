@@ -3,13 +3,12 @@ var leveljs = require('level-js');
 var Sublevel = require('level-sublevel');
 
 function Store() {
-  var db = Sublevel(levelup(
-    'council',
-    {
+  var db = Sublevel(
+    levelup('council', {
       db: leveljs,
       valueEncoding: 'json'
-    }
-  ));
+    })
+  );
   var problemDb = db.sublevel('problem');
 
   return {

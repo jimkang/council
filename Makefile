@@ -1,3 +1,5 @@
+include config.mk
+
 BROWSERIFY = ./node_modules/.bin/browserify
 UGLIFY = ./node_modules/.bin/uglifyjs
 TRANSFORM_SWITCH = -t [ babelify --presets [ es2015 ] ]
@@ -25,10 +27,18 @@ run-firefox-test:
 test: run-chrome-test run-firefox-test
 
 pushall:
-	git push origin gh-pages
+	git push origin master
 
 lint:
 	./node_modules/.bin/eslint .
 
 purifycss:
 	./node_modules/.bin/purifycss app.css app.js --info --out app.css
+
+prettier:
+	prettier --single-quote --write "**/*.js"
+
+sync:
+	rsync -a $(HOMEDIR)/ $(USER)@$(SERVER):/$(APPDIR) --exclude node_modules/ \
+		--omit-dir-times --no-perms
+

@@ -5,9 +5,9 @@ var tornPaperBoxKit = require('./torn-paper-box-kit');
 
 var getId = accessor();
 
-function renderListProblems({problemsData, setRoute, saveProblem}) {
+function renderListProblems({ problemsData, setRoute, saveProblem }) {
   d3.selectAll('body > section:not(#list-problems)').classed('hidden', true);
-  
+
   var listSection = d3.select('#list-problems');
   listSection.classed('hidden', false);
 
@@ -18,12 +18,19 @@ function renderListProblems({problemsData, setRoute, saveProblem}) {
 
   problems.exit().remove();
 
-  var newProblems = problems.enter().append('li').classed('problem', true);
+  var newProblems = problems
+    .enter()
+    .append('li')
+    .classed('problem', true);
 
   tornPaperBoxKit.setUpTornPaperBoxes(newProblems);
 
   newProblems.selectAll('svg').on('click', display);
-  newProblems.append('a').classed('action-link', true).text('Edit').on('click', edit);
+  newProblems
+    .append('a')
+    .classed('action-link', true)
+    .text('Edit')
+    .on('click', edit);
 
   var updateProblems = newProblems.merge(problems);
   updateProblems.attr('id', getId);

@@ -7,12 +7,12 @@ function SearchFlickr(createOpts) {
 
   if (createOpts) {
     flickrAPIKey = createOpts.flickrAPIKey;
-    request = createOpts.request;    
+    request = createOpts.request;
   }
 
   return searchFlickr;
 
-  function searchFlickr({term, userId, pageToGet}, done) {
+  function searchFlickr({ term, userId, pageToGet }, done) {
     var reqOpts = {
       method: 'GET',
       url: getFlickrSearchURL(term, userId, pageToGet),
@@ -25,16 +25,19 @@ function SearchFlickr(createOpts) {
     function searchDone(error, httpResponse, searchResponse) {
       if (error) {
         done(error);
-      }
-      else if (searchResponse.stat !== 'ok' || searchResponse.photos.photo.length < 1) {
-        var findError = new Error('Couldn\'t find image. Status:', searchResponse.stat);
+      } else if (
+        searchResponse.stat !== 'ok' ||
+        searchResponse.photos.photo.length < 1
+      ) {
+        var findError = new Error(
+          "Couldn't find image. Status:",
+          searchResponse.stat
+        );
         findError.notFound = true;
         done(findError);
-      }
-      else if (pageToGet === searchResponse.photos.page) {
+      } else if (pageToGet === searchResponse.photos.page) {
         done(null, searchResponse.photos.photo);
-      }
-      else {
+      } else {
         getFromRandomPage(searchResponse.photos, done);
       }
     }
@@ -47,19 +50,25 @@ function SearchFlickr(createOpts) {
           pageToGet: probable.rollDie(searchResults.pages)
         };
         callNextTick(searchFlickr, searchOpts, done);
-      }
-      else {
+      } else {
         done(null, searchResults.photo);
       }
     }
   }
 
   function getFlickrSearchURL(text, userId, page) {
-    var url = 'https://api.flickr.com/services/rest/?' + 
+    var url =
+      'https://api.flickr.com/services/rest/?' +
       'method=flickr.photos.search&' +
-      'api_key=' + flickrAPIKey + '&' +
-      'user_id=' + encodeURIComponent(userId) + '&' +
-      'text=' + text + '&' +
+      'api_key=' +
+      flickrAPIKey +
+      '&' +
+      'user_id=' +
+      encodeURIComponent(userId) +
+      '&' +
+      'text=' +
+      text +
+      '&' +
       'format=json&nojsoncallback=1';
 
     if (page) {

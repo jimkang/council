@@ -6,7 +6,7 @@ var handleError = require('./handle-error');
 
 var getId = accessor();
 
-function renderEditProblem({problem, commitChanges, setRoute}) {
+function renderEditProblem({ problem, commitChanges, setRoute }) {
   d3.selectAll('body > section:not(#edit-problem)').classed('hidden', true);
 
   var originalOpts = arguments[0];
@@ -16,7 +16,9 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
   editSection.select('.add-choice-button').on('click', addChoice);
   editSection.select('.view-button').on('click', view);
 
-  editSection.select('.problem .dialogue-text').datum(problem)
+  editSection
+    .select('.problem .dialogue-text')
+    .datum(problem)
     .text(problem.text)
     .on('blur', onEndProblemTextEdit);
 
@@ -25,9 +27,14 @@ function renderEditProblem({problem, commitChanges, setRoute}) {
 
   choices.exit().remove();
 
-  var newChoices = choices.enter().append('li').classed('choice', true);
+  var newChoices = choices
+    .enter()
+    .append('li')
+    .classed('choice', true);
 
-  newChoices.append('div').classed('dialogue-text', true)
+  newChoices
+    .append('div')
+    .classed('dialogue-text', true)
     .attr('contenteditable', true)
     .on('blur', onEndChoiceEdit);
 

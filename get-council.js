@@ -20,7 +20,7 @@ var idsForLibraries = {
   'Archivo Historico': '99115493@N08',
   'National Library of Medicine': 'nlmhmd',
   'Museum of Hartlepool': 'hartlepool_museum',
-  'NASA': 'nasacommons'
+  NASA: 'nasacommons'
 };
 
 var searchFlickr = SearchFlickr({
@@ -28,13 +28,15 @@ var searchFlickr = SearchFlickr({
   request: makeRequest
 });
 
-function getCouncil({numberOfMembers, retryCount}, done) {
+function getCouncil({ numberOfMembers, retryCount }, done) {
   if (retryCount === undefined) {
     retryCount = 0;
   }
 
   var library = libraryTable.roll();
-  var termTable = probable.createTableFromSizes(termTableDefsForLibraries[library]);
+  var termTable = probable.createTableFromSizes(
+    termTableDefsForLibraries[library]
+  );
   var searchTerm = termTable.roll();
   console.log(searchTerm, library, 'retryCount', retryCount);
 
@@ -57,22 +59,20 @@ function getCouncil({numberOfMembers, retryCount}, done) {
             retryCount: retryCount + 1
           };
           callNextTick(getCouncil, opts, done);
-        }
-        else {
+        } else {
           done(error);
         }
-      }
-      else {
+      } else {
         done(error);
       }
-    }
-    else {
+    } else {
       pickImage(results);
     }
   }
 
   function pickImage(searchResults) {
-    var councilResults = probable.shuffle(searchResults)
+    var councilResults = probable
+      .shuffle(searchResults)
       .slice(0, numberOfMembers)
       .map(searchResultToCouncilResult);
     done(null, councilResults);

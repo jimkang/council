@@ -53,10 +53,7 @@ module.exports = {
     [2, 'owl'],
     [1, 'dinosaur']
   ],
-  'Texas State Library': [
-    [1, 'person'],
-    [2, 'portrait']
-  ],
+  'Texas State Library': [[1, 'person'], [2, 'portrait']],
   'Archivo Historico': [
     [1, 'portrait'],
     [1, 'person'],
@@ -70,11 +67,8 @@ module.exports = {
     [1, 'skeleton'],
     [2, 'poster']
   ],
-  'Museum of Hartlepool': [
-    [2, 'people'],
-    [1, 'toy']
-  ],
-  'NASA': [
+  'Museum of Hartlepool': [[2, 'people'], [1, 'toy']],
+  NASA: [
     [2, 'astronaut'],
     [1, 'shuttle'],
     [1, 'rocket'],

@@ -5,23 +5,26 @@ const tearWidth = 5;
 
 function setUpTornPaperBoxes(parentSel) {
   parentSel
-    .append('svg').classed('dialogue-text-board', true)
+    .append('svg')
+    .classed('dialogue-text-board', true)
     .append('foreignObject')
-      .attr('width', '100%')
-      .attr('height', '100%')
-      .attr('x', tearWidth)
-      .attr('y', tearWidth)
+    .attr('width', '100%')
+    .attr('height', '100%')
+    .attr('x', tearWidth)
+    .attr('y', tearWidth)
     // Using the namespace when appending an html element to a foreignObject is
     // incredibly important. Without it, a div will not size itself correctly for its contents.
-    .append('xhtml:div').classed('dialogue-text-container', true)
-    .append('xhtml:div').classed('dialogue-text', true);
+    .append('xhtml:div')
+    .classed('dialogue-text-container', true)
+    .append('xhtml:div')
+    .classed('dialogue-text', true);
 
   return parentSel;
 }
 
 function renderTearsAfterDelay(parentSelectionSel) {
   // This must go after the .dialogue-text contents are updated.
-  // Hack: If this is called immediately, the clientHeight will not be correct yet.  
+  // Hack: If this is called immediately, the clientHeight will not be correct yet.
   setTimeout(callRenderTears, 300);
 
   function callRenderTears() {
@@ -29,29 +32,28 @@ function renderTearsAfterDelay(parentSelectionSel) {
   }
 }
 
-
 function renderTears(textBoards) {
-  textBoards.selectAll('foreignObject')
+  textBoards
+    .selectAll('foreignObject')
     .attr('width', getForeignObjectWidth)
     .attr('height', getForeignObjectHeight);
 
   // Changing the width of the board changes the width of the foreignObjects, as they
   // are initially set to 100%. So, do that before changing the width of the board.
-  textBoards
-    .attr('width', getBoardWidth)
-    .attr('height', getBoardHeight);
+  textBoards.attr('width', getBoardWidth).attr('height', getBoardHeight);
 
   // Use path directions as data.
-  var paths = textBoards.selectAll('.tear-path')
+  var paths = textBoards
+    .selectAll('.tear-path')
     .data([[0, -1], [0, 1], [-1, 0], [1, 0]]);
-  
+
   var updatePaths = paths
-    .enter().append('path').classed('tear-path', true)
+    .enter()
+    .append('path')
+    .classed('tear-path', true)
     .merge(paths);
-  
-  updatePaths
-    .attr('d', getPathDirections)
-    .attr('transform', getPathTransform);
+
+  updatePaths.attr('d', getPathDirections).attr('transform', getPathTransform);
 
   function getBoardWidth() {
     return getWidthOfTextElement(d3.select(this)) + 2 * tearWidth;
