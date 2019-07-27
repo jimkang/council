@@ -1,5 +1,6 @@
 var randomId = require('idmaker').randomId;
 
+// TODO: Create choice needs to get a council member.
 function createChoice() {
   return {
     id: 'choice-' + randomId(4),

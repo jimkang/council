@@ -2,11 +2,11 @@ var d3 = require('d3-selection');
 var createChoice = require('./create-choice');
 var callNextTick = require('call-next-tick');
 var accessor = require('accessor');
-var handleError = require('./handle-error');
+//var handleError = require('./handle-error');
 
 var getId = accessor();
 
-function renderEditProblem({ problem, commitChanges, setRoute }) {
+function renderEditProblem({ problem, onEditProblemUpdate, onDisplay }) {
   d3.selectAll('body > section:not(#edit-problem)').classed('hidden', true);
 
   var originalOpts = arguments[0];
@@ -49,22 +49,17 @@ function renderEditProblem({ problem, commitChanges, setRoute }) {
 
   function onEndProblemTextEdit(p) {
     p.text = this.textContent;
-    commitChanges(problem, handleError);
+    onEditProblemUpdate(problem);
   }
 
   function onEndChoiceEdit(choice) {
     choice.text = this.textContent;
-    commitChanges(problem, handleError);
-    renderEditProblem({
-      problem: problem,
-      commitChanges: commitChanges,
-      setRoute: setRoute
-    });
+    onEditProblemUpdate(problem);
   }
 
   function view() {
     editSection.classed('hidden', true);
-    setRoute('/problem/' + problem.id);
+    onDisplay();
   }
 }
 

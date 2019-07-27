@@ -1,3 +1,16 @@
+function Store({ routeState }) {
+  return {
+    saveProblem,
+    loadProblem,
+    loadAllProblems
+  };
+
+  function saveProblem() {}
+  function loadProblem() {}
+  function loadAllProblems() {}
+}
+
+/*
 var levelup = require('levelup');
 var leveljs = require('level-js');
 var Sublevel = require('level-sublevel');
@@ -48,5 +61,6 @@ function Store() {
     }
   }
 }
+*/
 
 module.exports = Store;

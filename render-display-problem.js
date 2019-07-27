@@ -7,8 +7,10 @@ var tornPaperBoxKit = require('./torn-paper-box-kit');
 
 var getId = accessor();
 
-function renderDisplayProblem({ problem, commitChanges, setRoute }) {
+function renderDisplayProblem({ problem, onDisplayProblemUpdate, onEdit }) {
   d3.selectAll('body > section:not(#display-problem)').classed('hidden', true);
+  // Go to the top of the page.
+  document.body.scrollTop = 0;
 
   d3.select('#change-council-link').on('click', updateCouncil);
 
@@ -55,21 +57,11 @@ function renderDisplayProblem({ problem, commitChanges, setRoute }) {
 
   function edit() {
     displaySection.classed('hidden', true);
-    setRoute('/problem/' + problem.id + '/edit');
+    onEdit();
   }
 
   function updateCouncil() {
-    changeCouncil(problem, sb(saveAndRender, handleError));
-  }
-
-  function saveAndRender() {
-    commitChanges(problem, handleError);
-
-    renderDisplayProblem({
-      problem: problem,
-      commitChanges: commitChanges,
-      setRoute: setRoute
-    });
+    changeCouncil(problem, sb(onDisplayProblemUpdate, handleError));
   }
 }
 
