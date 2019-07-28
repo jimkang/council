@@ -52,11 +52,11 @@ function renderDisplayProblem({
   var updateChoices = newChoices.merge(choices);
   updateChoices.attr('id', getId);
   updateChoices
-    .selectAll('.presenter img')
+    .select('.presenter img')
     .attr('src', accessor('presenterImageURL'))
     .attr('alt', accessor('imageTitle'));
   updateChoices
-    .selectAll('.attribution-link')
+    .select('.attribution-link')
     .attr('href', accessor('imageSource'));
 
   updateChoices.select('.dialogue-text').text(accessor('text'));

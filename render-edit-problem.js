@@ -7,6 +7,9 @@ var accessor = require('accessor');
 var getId = accessor();
 
 function renderEditProblem({ problem, onEditProblemUpdate, onDisplay, onNew }) {
+  // Go to the top of the page.
+  document.body.scrollTop = 0;
+
   d3.selectAll('body > section:not(#edit-problem)').classed('hidden', true);
 
   var originalOpts = arguments[0];
@@ -36,12 +39,14 @@ function renderEditProblem({ problem, onEditProblemUpdate, onDisplay, onNew }) {
   newChoices
     .append('div')
     .classed('dialogue-text', true)
-    .attr('contenteditable', true)
-    .on('blur', onEndChoiceEdit);
+    .attr('contenteditable', true);
 
   var updateChoices = newChoices.merge(choices);
   updateChoices.attr('id', getId);
-  updateChoices.selectAll('.dialogue-text').text(accessor('text'));
+  updateChoices
+    .select('.dialogue-text')
+    .text(accessor('text'))
+    .on('blur', onEndChoiceEdit);
 
   function addChoice() {
     problem.choices.push(createChoice());
