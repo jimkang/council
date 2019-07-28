@@ -32,7 +32,7 @@ function renderDisplayProblem({
   var choiceRoot = displaySection.select('.choice-root');
   var choices = choiceRoot.selectAll('.choice').data(problem.choices, getId);
   // Also (re-)bind data to img elements so accessors using them work with current data.
-  choices.selectAll('.presenter img').data(problem.choices, getId);
+  choices.select('.presenter img');
 
   choices.exit().remove();
 
@@ -59,7 +59,7 @@ function renderDisplayProblem({
     .selectAll('.attribution-link')
     .attr('href', accessor('imageSource'));
 
-  updateChoices.selectAll('.dialogue-text').text(accessor('text'));
+  updateChoices.select('.dialogue-text').text(accessor('text'));
 
   displaySection.select('.problem .dialogue-text').text(problem.text);
 
