@@ -7,7 +7,14 @@ var tornPaperBoxKit = require('./torn-paper-box-kit');
 
 var getId = accessor();
 
-function renderDisplayProblem({ problem, onDisplayProblemUpdate, onEdit }) {
+function renderDisplayProblem({
+  problem,
+  onDisplayProblemUpdate,
+  onEdit,
+  onRememberProblem,
+  onNew,
+  onList
+}) {
   d3.selectAll('body > section:not(#display-problem)').classed('hidden', true);
   // Go to the top of the page.
   document.body.scrollTop = 0;
@@ -18,6 +25,9 @@ function renderDisplayProblem({ problem, onDisplayProblemUpdate, onEdit }) {
   displaySection.classed('hidden', false);
 
   displaySection.select('.edit-button').on('click', edit);
+  displaySection.select('.remember-button').on('click', onRememberClick);
+  displaySection.select('.new-button').on('click', onNew);
+  displaySection.select('.list-button').on('click', onList);
 
   var choiceRoot = displaySection.select('.choice-root');
   var choices = choiceRoot.selectAll('.choice').data(problem.choices, getId);
@@ -62,6 +72,10 @@ function renderDisplayProblem({ problem, onDisplayProblemUpdate, onEdit }) {
 
   function updateCouncil() {
     changeCouncil(problem, sb(onDisplayProblemUpdate, handleError));
+  }
+
+  function onRememberClick() {
+    onRememberProblem(problem);
   }
 }
 

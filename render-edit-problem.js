@@ -6,7 +6,7 @@ var accessor = require('accessor');
 
 var getId = accessor();
 
-function renderEditProblem({ problem, onEditProblemUpdate, onDisplay }) {
+function renderEditProblem({ problem, onEditProblemUpdate, onDisplay, onNew }) {
   d3.selectAll('body > section:not(#edit-problem)').classed('hidden', true);
 
   var originalOpts = arguments[0];
@@ -15,6 +15,7 @@ function renderEditProblem({ problem, onEditProblemUpdate, onDisplay }) {
 
   editSection.select('.add-choice-button').on('click', addChoice);
   editSection.select('.view-button').on('click', view);
+  editSection.select('.new-button').on('click', onNew);
 
   editSection
     .select('.problem .dialogue-text')
