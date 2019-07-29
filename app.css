@@ -16,6 +16,10 @@ body {
   padding-left: 0;
 }
 
+.dialogue-text {
+  word-break: break-all;
+}
+
 #edit-problem .choice-root {
   margin-top: 0;
 }
