@@ -1,98 +1,160 @@
-var director = require('director');
+var RouteState = require('route-state');
 var renderEditProblem = require('./render-edit-problem');
 var renderDisplayProblem = require('./render-display-problem');
 var renderListProblems = require('./render-list-problems');
-var Store = require('./store');
-var sb = require('standard-bail')();
-var handleError = require('./handle-error');
-var walkMachine = require('walk-machine');
-var callNextTick = require('call-next-tick');
-var changeCouncil = require('./change-council');
+var store = require('./store');
+//var sb = require('standard-bail')();
+var handleError = require('handle-error-web');
+//var changeCouncil = require('./change-council');
 var welcomeProblem = require('./data/welcome-problem.json');
+var createNewProblem = require('./create-new-problem');
+var { makeProblemObject, serializeProblemForRoute } = require('./problem');
+var sb = require('standard-bail')();
 
 // require('longjohn');
 
-var store;
+var routeState;
 
 (function init() {
-  store = Store();
-
-  var router = director.Router({
-    '/problem/:id': displayProblem,
-    '/problem/:id/edit': editProblem,
-    '/': decide
-  });
-
-  router.notfound = decide;
-  var safeSetRoute = router.setRoute.bind(router);
-
-  router.init('/');
-
-  function decide() {
-    store.loadAllProblems(sb(decideWithProblems, handleError));
-
-    function decideWithProblems(problems) {
-      if (!problems || problems.length < 1) {
-        store.saveProblem(welcomeProblem, sb(goToWelcome, handleError));
-      } else {
-        renderListProblems({
-          problemsData: problems,
-          saveProblem: store.saveProblem,
-          setRoute: safeSetRoute
-        });
-      }
-    }
-
-    function goToWelcome() {
-      safeSetRoute('/problem/problem-hello');
-    }
-  }
-
-  function displayProblem(id) {
-    var stateMap = {
-      start: {
-        work: store.loadProblem,
-        params: [id],
-        next: pickStateAfterLoad
-      },
-      loadImages: {
-        work: changeCouncil,
-        next: 'render'
-      },
-      render: {
-        work: callRender
-      }
-    };
-
-    walkMachine(stateMap, handleError);
-
-    function pickStateAfterLoad(problem, done) {
-      var nextState = 'loadImages';
-      if (problem.choices.every(choice => choice.presenterImageURL)) {
-        nextState = 'render';
-      }
-      done(null, nextState);
-    }
-
-    function callRender(problem, done) {
-      renderDisplayProblem({
-        problem: problem,
-        commitChanges: store.saveProblem,
-        setRoute: safeSetRoute
-      });
-      callNextTick(done);
-    }
-  }
-
-  function editProblem(id) {
-    store.loadProblem(id, sb(callEdit, handleError));
-
-    function callEdit(problem) {
-      renderEditProblem({
-        problem: problem,
-        commitChanges: store.saveProblem,
-        setRoute: safeSetRoute
-      });
-    }
-  }
+  routeState = RouteState({ followRoute, windowObject: window });
+  routeState.routeFromHash();
 })();
+
+function followRoute(routeDict) {
+  var { action, id, text, choices, councilSource } = routeDict;
+
+  if (choices) {
+    choices = JSON.parse(choices);
+  }
+  if (councilSource) {
+    councilSource = JSON.parse(councilSource);
+  }
+
+  var defaultHandlers = {
+    onDisplayProblemUpdate,
+    onEditProblemUpdate,
+    onDisplay,
+    onDisplaySpecificProblem,
+    onEdit,
+    onList,
+    onNew,
+    onRememberProblem
+  };
+
+  if (action === 'edit') {
+    renderEditProblem(
+      Object.assign(
+        {
+          problem: makeProblemObject({
+            id: id || welcomeProblem.id,
+            text: text || welcomeProblem.text,
+            choices: choices || [],
+            councilSource: councilSource || {}
+          })
+        },
+        defaultHandlers
+      )
+    );
+    return;
+  }
+
+  if (action === 'list') {
+    renderListProblems(
+      Object.assign(
+        {
+          problemsData: store.getRememberedProblems()
+        },
+        defaultHandlers
+      )
+    );
+    return;
+  }
+
+  if (
+    !action ||
+    !id ||
+    !text ||
+    !choices ||
+    !Array.isArray(choices) ||
+    choices.length < 1
+  ) {
+    routeState.addToRoute(
+      Object.assign(serializeProblemForRoute(welcomeProblem), {
+        action: 'display'
+      })
+    );
+    return;
+  }
+
+  if (action === 'display') {
+    renderDisplayProblem(
+      Object.assign(
+        {
+          problem: makeProblemObject({ id, text, choices, councilSource })
+        },
+        defaultHandlers
+      )
+    );
+  }
+}
+
+function updateRouteWithProblem({
+  action,
+  problem, // Actual problem object.
+  followNewRouteAfterUpdating = true
+}) {
+  routeState.addToRoute(
+    Object.assign(serializeProblemForRoute(problem), { action }),
+    followNewRouteAfterUpdating
+  );
+}
+
+function onDisplayProblemUpdate(problem) {
+  updateRouteWithProblem({ action: 'display', problem });
+}
+
+function onRememberProblem(problem) {
+  store.rememberProblem(problem);
+  // TODO: Show confirmation that it was remembered.
+  // renderRememberConfirmation();
+}
+
+function onEdit() {
+  routeState.addToRoute({ action: 'edit' });
+}
+
+function onDisplay() {
+  routeState.addToRoute({ action: 'display' });
+}
+
+function onList() {
+  routeState.addToRoute({ action: 'list' });
+}
+
+function onNew() {
+  createNewProblem(sb(updateRouteWithNewProblem, handleError));
+}
+
+function updateRouteWithNewProblem(newProblem) {
+  updateRouteWithProblem({
+    action: 'edit',
+    problem: newProblem,
+    followNewRouteAfterUpdating: true
+  });
+}
+
+function onEditProblemUpdate(problem, followNewRouteAfterUpdating = false) {
+  updateRouteWithProblem({
+    action: 'edit',
+    problem,
+    followNewRouteAfterUpdating
+  });
+}
+
+function onDisplaySpecificProblem(problem) {
+  updateRouteWithProblem({
+    action: 'display',
+    problem,
+    followNewRouteAfterUpdating: true
+  });
+}

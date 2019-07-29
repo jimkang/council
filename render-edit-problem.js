@@ -1,20 +1,23 @@
 var d3 = require('d3-selection');
 var createChoice = require('./create-choice');
-var callNextTick = require('call-next-tick');
 var accessor = require('accessor');
-var handleError = require('./handle-error');
+var sb = require('standard-bail')();
+var handleError = require('handle-error-web');
 
 var getId = accessor();
 
-function renderEditProblem({ problem, commitChanges, setRoute }) {
+function renderEditProblem({ problem, onEditProblemUpdate, onDisplay, onNew }) {
+  // Go to the top of the page.
+  document.body.scrollTop = 0;
+
   d3.selectAll('body > section:not(#edit-problem)').classed('hidden', true);
 
-  var originalOpts = arguments[0];
   var editSection = d3.select('#edit-problem');
   editSection.classed('hidden', false);
 
   editSection.select('.add-choice-button').on('click', addChoice);
   editSection.select('.view-button').on('click', view);
+  editSection.select('.new-button').on('click', onNew);
 
   editSection
     .select('.problem .dialogue-text')
@@ -35,36 +38,37 @@ function renderEditProblem({ problem, commitChanges, setRoute }) {
   newChoices
     .append('div')
     .classed('dialogue-text', true)
-    .attr('contenteditable', true)
-    .on('blur', onEndChoiceEdit);
+    .attr('contenteditable', true);
 
   var updateChoices = newChoices.merge(choices);
   updateChoices.attr('id', getId);
-  updateChoices.selectAll('.dialogue-text').text(accessor('text'));
+  updateChoices
+    .select('.dialogue-text')
+    .text(accessor('text'))
+    .on('blur', onEndChoiceEdit);
 
   function addChoice() {
-    problem.choices.push(createChoice());
-    callNextTick(renderEditProblem, originalOpts);
+    createChoice(problem.councilSource, sb(updateWithNewChoice, handleError));
+  }
+
+  function updateWithNewChoice(choice) {
+    problem.choices.push(choice);
+    onEditProblemUpdate(problem, true);
   }
 
   function onEndProblemTextEdit(p) {
     p.text = this.textContent;
-    commitChanges(problem, handleError);
+    onEditProblemUpdate(problem);
   }
 
   function onEndChoiceEdit(choice) {
     choice.text = this.textContent;
-    commitChanges(problem, handleError);
-    renderEditProblem({
-      problem: problem,
-      commitChanges: commitChanges,
-      setRoute: setRoute
-    });
+    onEditProblemUpdate(problem);
   }
 
   function view() {
     editSection.classed('hidden', true);
-    setRoute('/problem/' + problem.id);
+    onDisplay();
   }
 }
 

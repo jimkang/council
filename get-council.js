@@ -28,16 +28,23 @@ var searchFlickr = SearchFlickr({
   request: makeRequest
 });
 
-function getCouncil({ numberOfMembers, retryCount }, done) {
+function getCouncil(
+  { numberOfMembers, retryCount, searchTerm, library },
+  done
+) {
   if (retryCount === undefined) {
     retryCount = 0;
   }
 
-  var library = libraryTable.roll();
-  var termTable = probable.createTableFromSizes(
-    termTableDefsForLibraries[library]
-  );
-  var searchTerm = termTable.roll();
+  if (!library) {
+    library = libraryTable.roll();
+  }
+  if (!searchTerm) {
+    let termTable = probable.createTableFromSizes(
+      termTableDefsForLibraries[library]
+    );
+    searchTerm = termTable.roll();
+  }
   console.log(searchTerm, library, 'retryCount', retryCount);
 
   searchFlickr(
@@ -55,7 +62,7 @@ function getCouncil({ numberOfMembers, retryCount }, done) {
       if (error.notFound || results.length < numberOfMembers) {
         if (retryCount < maxRetries) {
           var opts = {
-            numberOfMembers: numberOfMembers,
+            numberOfMembers,
             retryCount: retryCount + 1
           };
           callNextTick(getCouncil, opts, done);
@@ -68,14 +75,14 @@ function getCouncil({ numberOfMembers, retryCount }, done) {
     } else {
       pickImage(results);
     }
-  }
 
-  function pickImage(searchResults) {
-    var councilResults = probable
-      .shuffle(searchResults)
-      .slice(0, numberOfMembers)
-      .map(searchResultToCouncilResult);
-    done(null, councilResults);
+    function pickImage(searchResults) {
+      var councilResults = probable
+        .shuffle(searchResults)
+        .slice(0, numberOfMembers)
+        .map(searchResultToCouncilResult);
+      done(null, { councilResults, searchTerm, library });
+    }
   }
 }
 

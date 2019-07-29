@@ -1,52 +1,53 @@
-var levelup = require('levelup');
-var leveljs = require('level-js');
-var Sublevel = require('level-sublevel');
+// Singleton.
 
-function Store() {
-  var db = Sublevel(
-    levelup('council', {
-      db: leveljs,
-      valueEncoding: 'json'
-    })
-  );
-  var problemDb = db.sublevel('problem');
+// Load from localStorage when the module is loaded.
+// These are actually wrapper objects. The problem is
+// in the `problem` property, and the date it was
+// remembered is in the `dateRemembered` property.
+var problemDict = {};
 
-  return {
-    saveProblem: saveProblem,
-    loadProblem: loadProblem,
-    loadAllProblems: loadAllProblems
-  };
-
-  function saveProblem(problem, done) {
-    problemDb.put(problem.id, problem, done);
-  }
-
-  function loadProblem(id, done) {
-    problemDb.get(id, done);
-  }
-
-  function loadAllProblems(done) {
-    var problems = [];
-    var stream = problemDb.createValueStream();
-
-    stream
-      .on('error', handleError)
-      .on('data', saveValue)
-      .on('end', passValues);
-
-    function handleError(error) {
-      stream.destroy();
-      done(error);
-    }
-
-    function saveValue(problem) {
-      problems.push(problem);
-    }
-
-    function passValues() {
-      done(null, problems);
-    }
+if (localStorage.problems) {
+  try {
+    problemDict = JSON.parse(localStorage.problems);
+  } catch (e) {
+    console.log(e, e.stack);
   }
 }
 
-module.exports = Store;
+function saveDict() {
+  localStorage.problems = JSON.stringify(problemDict);
+}
+
+function rememberProblem(problem) {
+  problemDict[problem.id] = { problem, dateRemembered: new Date() };
+  saveDict();
+}
+
+function getProblem(id) {
+  return problemDict[id].problem;
+}
+
+function forgetAllProblems() {
+  problemDict = {};
+  saveDict();
+}
+
+function getRememberedProblems() {
+  return Object.values(problemDict)
+    .sort(compareDate)
+    .map(w => w.problem);
+}
+
+function compareDate(a, b) {
+  if (a < b) {
+    return -1;
+  }
+  return 1;
+}
+
+module.exports = {
+  rememberProblem,
+  getProblem,
+  forgetAllProblems,
+  getRememberedProblems
+};
