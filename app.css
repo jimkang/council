@@ -193,3 +193,8 @@ body.fantasy {
   flex-direction: column;
   align-items: center;
 }
+
+footer {
+  text-align: center;
+}
+
