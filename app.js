@@ -8,6 +8,7 @@ var store = require('./store');
 //var changeCouncil = require('./change-council');
 var welcomeProblem = require('./data/welcome-problem.json');
 var createNewProblem = require('./create-new-problem');
+var { makeProblemObject, serializeProblemForRoute } = require('./problem');
 
 // require('longjohn');
 
@@ -76,13 +77,11 @@ function followRoute(routeDict) {
     !Array.isArray(choices) ||
     choices.length < 1
   ) {
-    routeState.addToRoute({
-      action: 'display',
-      id: welcomeProblem.id,
-      text: welcomeProblem.text,
-      choices: JSON.stringify(welcomeProblem.choices),
-      councilSource: JSON.stringify(welcomeProblem.councilSource)
-    });
+    routeState.addToRoute(
+      Object.assign(serializeProblemForRoute(welcomeProblem), {
+        action: 'display'
+      })
+    );
     return;
   }
 
@@ -98,28 +97,13 @@ function followRoute(routeDict) {
   }
 }
 
-function makeProblemObject({ id, text, choices, councilSource }) {
-  return {
-    id,
-    text,
-    choices,
-    councilSource
-  };
-}
-
 function updateRouteWithProblem({
   action,
   problem, // Actual problem object.
   followNewRouteAfterUpdating = true
 }) {
   routeState.addToRoute(
-    {
-      action,
-      id: problem.id,
-      text: problem.text,
-      choices: JSON.stringify(problem.choices),
-      councilSource: JSON.stringify(problem.councilSource)
-    },
+    Object.assign(serializeProblemForRoute(problem), { action }),
     followNewRouteAfterUpdating
   );
 }
@@ -148,13 +132,11 @@ function onList() {
 
 function onNew() {
   var newProblem = createNewProblem();
-  routeState.addToRoute({
-    action: 'edit',
-    id: newProblem.id,
-    text: newProblem.text,
-    choices: JSON.stringify(newProblem.choices)
-    //councilSource: JSON.stringify(newProblem.choices)
-  });
+  routeState.addToRoute(
+    Object.assign(serializeProblemForRoute(newProblem), {
+      action: 'edit'
+    })
+  );
 }
 
 function onEditProblemUpdate(problem, followNewRouteAfterUpdating = false) {
