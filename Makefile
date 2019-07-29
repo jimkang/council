@@ -26,7 +26,7 @@ run-firefox-test:
 
 test: run-chrome-test run-firefox-test
 
-pushall:
+pushall: sync
 	git push origin master
 
 lint:
