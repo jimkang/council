@@ -19,10 +19,13 @@ var routeState;
 })();
 
 function followRoute(routeDict) {
-  var { action, id, text, choices } = routeDict;
+  var { action, id, text, choices, councilSource } = routeDict;
 
   if (choices) {
     choices = JSON.parse(choices);
+  }
+  if (councilSource) {
+    councilSource = JSON.parse(councilSource);
   }
 
   var defaultHandlers = {
@@ -43,7 +46,8 @@ function followRoute(routeDict) {
           problem: makeProblemObject({
             id: id || welcomeProblem.id,
             text: text || welcomeProblem.text,
-            choices: choices || []
+            choices: choices || [],
+            councilSource: councilSource || {}
           })
         },
         defaultHandlers
@@ -76,7 +80,8 @@ function followRoute(routeDict) {
       action: 'display',
       id: welcomeProblem.id,
       text: welcomeProblem.text,
-      choices: JSON.stringify(welcomeProblem.choices)
+      choices: JSON.stringify(welcomeProblem.choices),
+      councilSource: JSON.stringify(welcomeProblem.councilSource)
     });
     return;
   }
@@ -85,7 +90,7 @@ function followRoute(routeDict) {
     renderDisplayProblem(
       Object.assign(
         {
-          problem: makeProblemObject({ id, text, choices })
+          problem: makeProblemObject({ id, text, choices, councilSource })
         },
         defaultHandlers
       )
@@ -93,11 +98,12 @@ function followRoute(routeDict) {
   }
 }
 
-function makeProblemObject({ id, text, choices }) {
+function makeProblemObject({ id, text, choices, councilSource }) {
   return {
     id,
     text,
-    choices
+    choices,
+    councilSource
   };
 }
 
@@ -111,7 +117,8 @@ function updateRouteWithProblem({
       action,
       id: problem.id,
       text: problem.text,
-      choices: JSON.stringify(problem.choices)
+      choices: JSON.stringify(problem.choices),
+      councilSource: JSON.stringify(problem.councilSource)
     },
     followNewRouteAfterUpdating
   );
@@ -146,14 +153,15 @@ function onNew() {
     id: newProblem.id,
     text: newProblem.text,
     choices: JSON.stringify(newProblem.choices)
+    //councilSource: JSON.stringify(newProblem.choices)
   });
 }
 
-function onEditProblemUpdate(problem) {
+function onEditProblemUpdate(problem, followNewRouteAfterUpdating = false) {
   updateRouteWithProblem({
     action: 'edit',
     problem,
-    followNewRouteAfterUpdating: false
+    followNewRouteAfterUpdating
   });
 }
 

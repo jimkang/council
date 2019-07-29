@@ -7,7 +7,7 @@ function changeCouncil(problem, done) {
     sb(updateChoices, done)
   );
 
-  function updateChoices(councilResults) {
+  function updateChoices({ councilResults, searchTerm, library }) {
     for (
       var i = 0;
       i < councilResults.length && i < problem.choices.length;
@@ -19,6 +19,8 @@ function changeCouncil(problem, done) {
       choice.imageTitle = result.title;
       choice.imageSource = result.source;
     }
+    problem.councilSource = { searchTerm, library };
+
     done(null, problem);
   }
 }

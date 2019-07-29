@@ -1,8 +1,8 @@
 var d3 = require('d3-selection');
 var createChoice = require('./create-choice');
-var callNextTick = require('call-next-tick');
 var accessor = require('accessor');
-//var handleError = require('./handle-error');
+var sb = require('standard-bail')();
+var handleError = require('./handle-error');
 
 var getId = accessor();
 
@@ -12,7 +12,6 @@ function renderEditProblem({ problem, onEditProblemUpdate, onDisplay, onNew }) {
 
   d3.selectAll('body > section:not(#edit-problem)').classed('hidden', true);
 
-  var originalOpts = arguments[0];
   var editSection = d3.select('#edit-problem');
   editSection.classed('hidden', false);
 
@@ -49,8 +48,12 @@ function renderEditProblem({ problem, onEditProblemUpdate, onDisplay, onNew }) {
     .on('blur', onEndChoiceEdit);
 
   function addChoice() {
-    problem.choices.push(createChoice());
-    callNextTick(renderEditProblem, originalOpts);
+    createChoice(problem.councilSource, sb(updateWithNewChoice, handleError));
+  }
+
+  function updateWithNewChoice(choice) {
+    problem.choices.push(choice);
+    onEditProblemUpdate(problem, true);
   }
 
   function onEndProblemTextEdit(p) {

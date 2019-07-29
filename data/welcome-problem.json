@@ -80,5 +80,9 @@
       "imageTitle": "Image from page 307 of \"Animal products;\" (1877)",
       "imageSource": "https://www.flickr.com/photos/126377022@N07/14774479844"
     }
-  ]
+  ],
+  "councilSource": {
+    "library": "Internet Archive Book Images",
+    "searchTerm": "mammal"
+  }
 }
