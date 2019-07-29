@@ -1,7 +1,8 @@
 var randomId = require('idmaker').randomId;
+var changeCouncil = require('./change-council');
 
-function createNewProblem() {
-  return {
+function createNewProblem(done) {
+  var problem = {
     id: 'problem-' + randomId(4),
     text: 'Here is a problem. <Click to edit this problem.>',
     presenterImageURL: '',
@@ -16,6 +17,7 @@ function createNewProblem() {
       }
     ]
   };
+  changeCouncil(problem, done);
 }
 
 module.exports = createNewProblem;

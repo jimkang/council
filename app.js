@@ -4,11 +4,12 @@ var renderDisplayProblem = require('./render-display-problem');
 var renderListProblems = require('./render-list-problems');
 var store = require('./store');
 //var sb = require('standard-bail')();
-//var handleError = require('./handle-error');
+var handleError = require('handle-error-web');
 //var changeCouncil = require('./change-council');
 var welcomeProblem = require('./data/welcome-problem.json');
 var createNewProblem = require('./create-new-problem');
 var { makeProblemObject, serializeProblemForRoute } = require('./problem');
+var sb = require('standard-bail')();
 
 // require('longjohn');
 
@@ -131,12 +132,15 @@ function onList() {
 }
 
 function onNew() {
-  var newProblem = createNewProblem();
-  routeState.addToRoute(
-    Object.assign(serializeProblemForRoute(newProblem), {
-      action: 'edit'
-    })
-  );
+  createNewProblem(sb(updateRouteWithNewProblem, handleError));
+}
+
+function updateRouteWithNewProblem(newProblem) {
+  updateRouteWithProblem({
+    action: 'edit',
+    problem: newProblem,
+    followNewRouteAfterUpdating: true
+  });
 }
 
 function onEditProblemUpdate(problem, followNewRouteAfterUpdating = false) {

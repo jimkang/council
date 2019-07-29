@@ -1,7 +1,7 @@
 var d3 = require('d3-selection');
 var accessor = require('accessor');
 var changeCouncil = require('./change-council');
-var handleError = require('./handle-error');
+var handleError = require('handle-error-web');
 var sb = require('standard-bail')();
 var tornPaperBoxKit = require('./torn-paper-box-kit');
 

@@ -2,7 +2,7 @@ var d3 = require('d3-selection');
 var createChoice = require('./create-choice');
 var accessor = require('accessor');
 var sb = require('standard-bail')();
-var handleError = require('./handle-error');
+var handleError = require('handle-error-web');
 
 var getId = accessor();
 
