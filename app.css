@@ -17,7 +17,7 @@ body {
 }
 
 .dialogue-text {
-  word-break: break-all;
+  overflow-wrap: break-word;
 }
 
 #edit-problem .choice-root {
