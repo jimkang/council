@@ -9,7 +9,6 @@ var handleError = require('handle-error-web');
 var welcomeProblem = require('./data/welcome-problem.json');
 var createNewProblem = require('./create-new-problem');
 var { makeProblemObject, serializeProblemForRoute } = require('./problem');
-var sb = require('standard-bail')();
 
 // require('longjohn');
 
@@ -131,16 +130,26 @@ function onList() {
   routeState.addToRoute({ action: 'list' });
 }
 
-function onNew() {
-  createNewProblem(sb(updateRouteWithNewProblem, handleError));
-}
+function onNew({ waitingMessage }) {
+  waitingMessage.show({ message: 'Calling forth council for new problem…' });
+  createNewProblem(useNewProblem);
 
-function updateRouteWithNewProblem(newProblem) {
-  updateRouteWithProblem({
-    action: 'edit',
-    problem: newProblem,
-    followNewRouteAfterUpdating: true
-  });
+  function useNewProblem(error, newProblem) {
+    waitingMessage.hide();
+    if (error) {
+      handleError(error);
+    } else {
+      updateRouteWithNewProblem(newProblem);
+    }
+  }
+
+  function updateRouteWithNewProblem(newProblem) {
+    updateRouteWithProblem({
+      action: 'edit',
+      problem: newProblem,
+      followNewRouteAfterUpdating: true
+    });
+  }
 }
 
 function onEditProblemUpdate(problem, followNewRouteAfterUpdating = false) {

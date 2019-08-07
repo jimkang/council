@@ -2,10 +2,13 @@ var d3 = require('d3-selection');
 var accessor = require('accessor');
 var changeCouncil = require('./change-council');
 var handleError = require('handle-error-web');
-var sb = require('standard-bail')();
 var tornPaperBoxKit = require('./torn-paper-box-kit');
+var WaitingMessage = require('./waiting-message');
 
 var getId = accessor();
+var waitingMessage = WaitingMessage({
+  messageElementSelector: '#display-problem .waiting-message'
+});
 
 function renderDisplayProblem({
   problem,
@@ -26,7 +29,7 @@ function renderDisplayProblem({
 
   displaySection.select('.edit-button').on('click', edit);
   displaySection.select('.remember-button').on('click', onRememberClick);
-  displaySection.select('.new-button').on('click', onNew);
+  displaySection.select('.new-button').on('click', onNewButtonClicked);
   displaySection.select('.list-button').on('click', onList);
 
   var choiceRoot = displaySection.select('.choice-root');
@@ -72,11 +75,26 @@ function renderDisplayProblem({
   }
 
   function updateCouncil() {
-    changeCouncil(problem, sb(onDisplayProblemUpdate, handleError));
+    waitingMessage.show({ message: 'Gathering new blood for the council..' });
+    changeCouncil(problem, useNewCouncil);
+
+    function useNewCouncil(error, problem) {
+      waitingMessage.hide();
+
+      if (error) {
+        handleError(error);
+      } else {
+        onDisplayProblemUpdate(problem);
+      }
+    }
   }
 
   function onRememberClick() {
     onRememberProblem(problem);
+  }
+
+  function onNewButtonClicked() {
+    onNew({ waitingMessage });
   }
 }
 

@@ -3,9 +3,12 @@ var createChoice = require('./create-choice');
 var accessor = require('accessor');
 var sb = require('standard-bail')();
 var handleError = require('handle-error-web');
+var WaitingMessage = require('./waiting-message');
 
 var getId = accessor();
-var waitingMessage = d3.select('#edit-problem .waiting-message');
+var waitingMessage = WaitingMessage({
+  messageElementSelector: '#edit-problem .waiting-message'
+});
 
 function renderEditProblem({ problem, onEditProblemUpdate, onDisplay, onNew }) {
   // Go to the top of the page.
@@ -18,7 +21,7 @@ function renderEditProblem({ problem, onEditProblemUpdate, onDisplay, onNew }) {
 
   editSection.select('.add-choice-button').on('click', addChoice);
   editSection.select('.view-button').on('click', view);
-  editSection.select('.new-button').on('click', onNew);
+  editSection.select('.new-button').on('click', onNewButtonClicked);
 
   editSection
     .select('.problem .dialogue-text')
@@ -49,16 +52,17 @@ function renderEditProblem({ problem, onEditProblemUpdate, onDisplay, onNew }) {
     .text(accessor('text'))
     .on('blur', onEndChoiceEdit);
 
+  function onNewButtonClicked() {
+    onNew({ waitingMessage });
+  }
+
   function addChoice() {
-    waitingMessage.text('Summoning councillor for new choice…');
-    waitingMessage.classed('animate-waiting', true);
-    waitingMessage.classed('hidden', false);
+    waitingMessage.show({ message: 'Summoning councilor for new choice…' });
     createChoice(problem.councilSource, sb(updateWithNewChoice, handleError));
   }
 
   function updateWithNewChoice(choice) {
-    waitingMessage.classed('animate-waiting', false);
-    waitingMessage.classed('hidden', true);
+    waitingMessage.hide();
     problem.choices.push(choice);
     onEditProblemUpdate(problem, true);
   }
