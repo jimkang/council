@@ -39,7 +39,8 @@ function renderDisplayProblem({
   var newChoices = choices
     .enter()
     .append('li')
-    .classed('choice', true);
+    .classed('choice', true)
+    .classed('centered-col', true);
   newChoices
     .append('div')
     .classed('presenter', true)

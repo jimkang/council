@@ -20,7 +20,8 @@ function renderListProblems({ problemsData, onNew, onDisplaySpecificProblem }) {
   var newProblems = problems
     .enter()
     .append('li')
-    .classed('problem', true);
+    .classed('problem', true)
+    .classed('centered-col', true);
 
   tornPaperBoxKit.setUpTornPaperBoxes(newProblems);
 

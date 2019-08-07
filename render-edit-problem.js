@@ -5,6 +5,7 @@ var sb = require('standard-bail')();
 var handleError = require('handle-error-web');
 
 var getId = accessor();
+var waitingMessage = d3.select('#edit-problem .waiting-message');
 
 function renderEditProblem({ problem, onEditProblemUpdate, onDisplay, onNew }) {
   // Go to the top of the page.
@@ -33,7 +34,8 @@ function renderEditProblem({ problem, onEditProblemUpdate, onDisplay, onNew }) {
   var newChoices = choices
     .enter()
     .append('li')
-    .classed('choice', true);
+    .classed('choice', true)
+    .classed('centered-col', true);
 
   newChoices
     .append('div')
@@ -48,10 +50,15 @@ function renderEditProblem({ problem, onEditProblemUpdate, onDisplay, onNew }) {
     .on('blur', onEndChoiceEdit);
 
   function addChoice() {
+    waitingMessage.text('Summoning councillor for new choice…');
+    waitingMessage.classed('animate-waiting', true);
+    waitingMessage.classed('hidden', false);
     createChoice(problem.councilSource, sb(updateWithNewChoice, handleError));
   }
 
   function updateWithNewChoice(choice) {
+    waitingMessage.classed('animate-waiting', false);
+    waitingMessage.classed('hidden', true);
     problem.choices.push(choice);
     onEditProblemUpdate(problem, true);
   }

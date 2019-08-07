@@ -7,14 +7,14 @@
   <body class="fantasy">
     <div id="status-message" class="hidden"></div>
 
-    <section id="list-problems" class="hidden">
+    <section id="list-problems" class="hidden centered-col">
       <h1>Council: Remembered problems</h1>
       <a class="action-link new-button">Add new problem</a>
       <ul class="problems-root"></ul>
     </section>
 
-    <section id="display-problem" class="hidden">
-      <div class="problem">
+    <section id="display-problem" class="hidden centered-col">
+      <div class="problem centered-col">
         <svg class="dialogue-text-board">
           <foreignObject width="100%" height="100%" x="5" y="5">
             <div class="dialogue-text-container">
@@ -24,12 +24,14 @@
         </svg>
       </div>
       <ul class="choice-root"></ul>
-      <a id="change-council-link" class="action-link">Change council</a>
 
-      <a class="action-link edit-button">Edit this problem</a>
-      <a class="action-link remember-button">Remember this problem</a>
-      <a class="action-link list-button">Show remembered problems</a>
-      <a class="action-link new-button">Add new problem</a>
+      <div class="action-panel centered-col">
+        <a id="change-council-link" class="action-link">Change council</a>
+        <a class="action-link edit-button">Edit this problem</a>
+        <a class="action-link remember-button">Remember this problem</a>
+        <a class="action-link list-button">Show remembered problems</a>
+        <a class="action-link new-button">Add new problem</a>
+      </div>
 
       <p>
         You can always share a problem (with accompanying council) by copying
@@ -39,7 +41,7 @@
       </p>
     </section>
 
-    <section id="edit-problem" class="hidden">
+    <section id="edit-problem" class="centered-col hidden">
       <p>
         Click on a problem or choice box to edit it. Click outside of the box
         when you're done editing it.
@@ -55,9 +57,14 @@
 
       <ul class="choice-root"></ul>
 
-      <a class="action-link add-choice-button">Add choice</a>
-      <a class="action-link view-button">Send before the council</a>
-      <a class="action-link new-button">Add new problem</a>
+      <div class="action-panel centered-col">
+        <div class="waiting-message hidden">
+          Waiting…
+        </div>
+        <a class="action-link add-choice-button">Add choice</a>
+        <a class="action-link view-button">Send before the council</a>
+        <a class="action-link new-button">Add new problem</a>
+      </div>
     </section>
 
     <footer><a href="https://jimkang.com/council">What is Council?</a></footer>
