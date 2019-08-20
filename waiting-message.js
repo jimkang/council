@@ -1,7 +1,7 @@
 var d3 = require('d3-selection');
 
 function WaitingMessage({ messageElementSelector }) {
-  var messageSel = d3.select(messageElementSelector);
+  var messageSel = d3.selectAll(messageElementSelector);
 
   return {
     show,

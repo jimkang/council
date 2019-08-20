@@ -29,8 +29,8 @@ function renderDisplayProblem({
 
   displaySection.select('.edit-button').on('click', edit);
   displaySection.select('.remember-button').on('click', onRememberClick);
-  displaySection.select('.new-button').on('click', onNewButtonClicked);
-  displaySection.select('.list-button').on('click', onList);
+  displaySection.selectAll('.new-button').on('click', onNewButtonClicked);
+  displaySection.selectAll('.list-button').on('click', onList);
 
   var choiceRoot = displaySection.select('.choice-root');
   var choices = choiceRoot.selectAll('.choice').data(problem.choices, getId);
