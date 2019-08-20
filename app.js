@@ -20,7 +20,7 @@ var routeState;
 })();
 
 function followRoute(routeDict) {
-  var { action, id, text, choices, councilSource } = routeDict;
+  var { action, id, text, choices, councilSource, goToTop } = routeDict;
 
   if (choices) {
     choices = JSON.parse(choices);
@@ -39,6 +39,7 @@ function followRoute(routeDict) {
     onNew,
     onRememberProblem
   };
+  var defaultRenderOpts = Object.assign({ goToTop }, defaultHandlers);
 
   if (action === 'edit') {
     renderEditProblem(
@@ -51,7 +52,7 @@ function followRoute(routeDict) {
             councilSource: councilSource || {}
           })
         },
-        defaultHandlers
+        defaultRenderOpts
       )
     );
     return;
@@ -63,7 +64,7 @@ function followRoute(routeDict) {
         {
           problemsData: store.getRememberedProblems()
         },
-        defaultHandlers
+        defaultRenderOpts
       )
     );
     return;
@@ -91,7 +92,7 @@ function followRoute(routeDict) {
         {
           problem: makeProblemObject({ id, text, choices, councilSource })
         },
-        defaultHandlers
+        defaultRenderOpts
       )
     );
   }
@@ -100,10 +101,11 @@ function followRoute(routeDict) {
 function updateRouteWithProblem({
   action,
   problem, // Actual problem object.
-  followNewRouteAfterUpdating = true
+  followNewRouteAfterUpdating = true,
+  goToTop = 'yes' // TODO: route-state should handle translating 'yes' to true.
 }) {
   routeState.addToRoute(
-    Object.assign(serializeProblemForRoute(problem), { action }),
+    Object.assign(serializeProblemForRoute(problem), { action, goToTop }),
     followNewRouteAfterUpdating
   );
 }
@@ -156,7 +158,8 @@ function onEditProblemUpdate(problem, followNewRouteAfterUpdating = false) {
   updateRouteWithProblem({
     action: 'edit',
     problem,
-    followNewRouteAfterUpdating
+    followNewRouteAfterUpdating,
+    goToTop: 'no'
   });
 }
 

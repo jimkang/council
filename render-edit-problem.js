@@ -10,9 +10,16 @@ var waitingMessage = WaitingMessage({
   messageElementSelector: '#edit-problem .waiting-message'
 });
 
-function renderEditProblem({ problem, onEditProblemUpdate, onDisplay, onNew }) {
-  // Go to the top of the page.
-  document.body.scrollTop = 0;
+function renderEditProblem({
+  problem,
+  onEditProblemUpdate,
+  onDisplay,
+  onNew,
+  goToTop = 'yes'
+}) {
+  if (goToTop === 'yes') {
+    document.body.scrollTop = 0;
+  }
 
   d3.selectAll('body > section:not(#edit-problem)').classed('hidden', true);
 
